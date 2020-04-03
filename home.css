@@ -39,6 +39,9 @@
 	height:auto;
 	position:absolute;
 	left:0px;
+	transition-property:left;
+	transition-duration:1s;
+	transition-timing-function:linear;
 }
 
 .in-product-card
@@ -199,6 +202,7 @@
 	font-size:16px;
 	padding:10px 10px 10px 10px;
 	border:2px solid #fff;
+	outline:none;
 }
 
 .buy:hover
@@ -207,5 +211,60 @@
 	color:#A6333F;
 }
 
+#tracker-buttons
+{
+	width:8em;
+	height:2em;
+	position:absolute;
+	overflow:hidden;
+	bottom:30px;
+	left:0px;
+}
+
+.tracker-area
+{
+	width:2em;
+	height:2em;
+	position:relative;
+	overflow:hidden;
+	float:left;
+}
+
+.tracker-icons
+{
+	position:absolute;
+	top:0.5em;
+	left:0.5em;
+	background-color:#fff;
+	border-radius:10px;
+	height:1em;
+	width:1em;
+	transition-property:width left;
+	transition-duration:0.15s;
+	transition-timing-function:linear;
+}
+
+#view-store
+{
+	padding:10px 25px 10px 25px;
+	color:#fff;
+	font-family:sans-serif;
+	font-weight:lighter;
+	font-size:18px;
+	text-transform:uppercase;
+	background-color:transparent;
+	outline:none;
+	border:2px solid #fff;
+	position:absolute;
+	bottom:30px;
+	border-radius:10px;
+	left:0px;
+}
+
+#view-store:hover
+{
+	background-color:#fff;
+	color:#A6333F;
+}
 
 
