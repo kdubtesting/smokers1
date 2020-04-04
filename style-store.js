@@ -40,6 +40,16 @@ positionTop += differencePA;
 
 $("#in-product-area").css("height", positionTop + "px");
 
+//This is the individual product area and the individual product image 
+var indProductArea = document.getElementsByClassName("ind-product-area");
+var ipaW = parseInt($(indProductArea[0]).css("width"));
+var productImage = document.getElementsByClassName("product-image");
+
+for(var i = 0; i < productImage.length; i++)
+{
+	$(productImage[i]).css("height", ipaW + "px");
+}
+
 //Above is all the product cards sized to the product area
 //I need to add a resizing function so that as the size gets smaller
 //The internals don't get crushed
@@ -67,5 +77,14 @@ $("#opt-search").css("width", searchBarW + "px");
 $("#search-opts-button").css("width", (searchBarH+4) + "px");
 $("#search-opts-button").css("height", (searchBarH+4) + "px");
 
+
+$("#between-area").css("width", optsSearchAreaW + "px");
+$("#between-area").css("height", (searchBarH + 8) + "px");
+
+$("#lower-price").css("left", "30px");
+var lpW = parseInt($("#lower-price").css("width"));
+var andW = parseInt($("#and").css("width"));
+$("#and").css("left", (lpW + 40) + "px");
+$("#high-price").css("left", (andW + lpW + 50) + "px");
 
 
