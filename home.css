@@ -267,4 +267,20 @@
 	color:#A6333F;
 }
 
+#email-button
+{
+	position:absolute;
+	bottom:30px;
+	right:30px;
+	height:40px;
+	width:65px;
+	overflow:hidden;
+}
+
+#email-button > img
+{
+	margin-left:1px;
+	margin-top:1px;
+}
+
 

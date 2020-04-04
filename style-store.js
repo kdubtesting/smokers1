@@ -1,123 +1,71 @@
-var chH = parseInt($(companyHeader).css("height"));
+var companyHeader = document.getElementById("company-header");
+var companyHeaderH = parseInt($(companyHeader).css("height"));
 var windowH = parseInt(window.innerHeight);
 
-var menuCover = document.getElementById("menu-cover");
+//This will set the product area height
+var productAreaH = windowH - (companyHeaderH + 60);
+var productAreaW = parseInt($("#products-area").css("width"));
 
-$(menuCover).css("height", (chH + 60) + "px");
+$("#products-area").css("height", productAreaH + "px");
 
-$("#products-area").css("height", (windowH - (chH + 60)) + "px");
-
-$("#individual-product-area").css("height", (windowH - (chH + 60)) + "px");
-
-
-var paH = windowH - (chH + 60);
-
-var productsArea = document.getElementById("products-area");
-var paW = parseInt($(productsArea).css("width"));
-var paW4 = paW / 4;
-
-//This is for the options area
-
-var opW = parseInt(window.innerWidth) - paW - 90;
-$("#options-area").css("width", opW + "px");
-
-var opH = parseInt($("#options-area").css("height"));
-var opTop = (parseInt(window.innerHeight) / 2) - (opH / 2);
-
-$("#options-area").css("top", opTop + "px");
-
-//Change the size of the search bar
-var sbW = opW - 18.4 - 30 - 4;
-$("#search-bar").css("width", sbW + "px");
-
-//This is for the products area
-
+//This will set the height and width of the 
+//multiple product cards
 var productItems = document.getElementsByClassName("product-items");
-var piH = parseInt($(productItems[0]).css("height"));
-var posL = 0;
-var posT = 0;
+var productItemsW = productAreaW / 4; //This is the initial size, afterwards it will be 3, then 2, then finally 1
+var productItemsH = productItemsW + 80;
 
-var addH = paH - piH;
-
-var totalH = 0;
+var counter = 1;
+var divident = 4;
+var positionLeft = 0;
+var positionTop = 0;
 
 for(var i = 0; i < productItems.length; i++)
 {
-	productItems[i].style.width = paW4 + "px";
-	productItems[i].style.left = (posL % paW) + "px";
-	productItems[i].style.top = posT + "px";
-	posL += paW4;
-	console.log(posL);
-	console.log(paW);
-	if((posL % paW) == 0)
+	productItems[i].style.height = productItemsH + "px";
+	productItems[i].style.width = productItemsW + "px";
+	productItems[i].style.left = (positionLeft % productAreaW) + "px";
+	positionLeft += productItemsW;
+	if(((i % divident) / 4) == 0 && (i != 0))
 	{
-		console.log("This ran");
-		totalH += piH;
-		posT += piH;
+		positionTop += productItemsH;
 	}
+	productItems[i].style.top = positionTop + "px";
 }
 
-if((posL % paW) != 0)
-{
-	totalH += piH + addH;
-}
-else
-{
-	totalH += addH;
-}
+positionTop += productItemsH;
 
-$("#in-product-area").css("height", totalH + "px");
+var differencePA = productAreaH - productItemsH;
 
-//This is the infobox on the individual products
-var inProduct = document.getElementsByClassName("in-product");
-var viewProduct = document.getElementsByClassName("view-product");
-var vpW = parseInt($(viewProduct[0]).css("width"));
+positionTop += differencePA;
 
-for(var i = 0; i < productItems.length; i++)
-{
-	viewProduct[i].style.left = ((paW4 / 2) - (vpW / 2)) + "px";
-	$(productItems[i]).on("click", function(){
-		$("#individual-product-area").css("bottom", "0vh");
-	});
-	$(inProduct[i]).on("mouseenter", function(){
-		var children = this.childNodes;
-		children[1].style.backgroundColor = "#ffffff";
-		children[1].style.color = "#A6333F";
-		//viewProduct[i].style.backgroundColor = "#ffffff";
-		//viewProduct[i].style.color = "#A6333F";
-	});
-	$(inProduct[i]).on("mouseleave", function(){
-		var children = this.childNodes;
-		children[1].style.backgroundColor = "transparent";
-		children[1].style.color = "#ffffff";
-		//viewProduct[i].style.backgroundColor = "transparent";
-		//viewProduct[i].style.color = "#ffffff";
-	});
-}
+$("#in-product-area").css("height", positionTop + "px");
 
-var pictureArea = document.getElementById("pictures-area");
-var indProAreaW = parseInt($("#individual-product-area").css("width"));
-var indProAreaH = parseInt($("#individual-product-area").css("height"));
-var descArea = document.getElementById("desc-area");
+//Above is all the product cards sized to the product area
+//I need to add a resizing function so that as the size gets smaller
+//The internals don't get crushed
 
-var remainArea = indProAreaW - 90;
+//This is the options area
+var optionsButtonH = parseInt($("#options-button").css("height"));
+var optionsButtonTop = (productAreaH / 2) - (optionsButtonH / 2);
+$("#options-button").css("top", (optionsButtonTop + companyHeaderH + 60) + "px");
 
-$(pictureArea).css("height", (0.7 * indProAreaH) + "px");
-$(pictureArea).css("width", (remainArea / 2) + "px");
-$(pictureArea).css("top", ((indProAreaH / 2) - ((0.7 * indProAreaH) / 2)) + "px");
-$(descArea).css("height", (0.7 * indProAreaH) + "px");
-$(descArea).css("top", ((indProAreaH / 2) - ((0.7 * indProAreaH) / 2)) + "px");
-$(descArea).css("width", (remainArea / 2) + "px");
+//This is the styling for the store options
+var windowW = parseInt(window.innerWidth);
+var optionsDisplayW = windowW - productAreaW - 90;
+$("#options-display").css("width", optionsDisplayW + "px");
+var optionsDisplayH = parseInt($("#options-display").css("height"));
+var optionsDisplayTop = (productAreaH / 2) - (optionsDisplayH / 2);
+$("#options-display").css("top", (optionsDisplayTop + companyHeaderH + 60) + "px");
 
-var textArea = document.getElementById("text-area");
-var taH = parseInt($(textArea).css("height"));
-var taW = parseInt($(textArea).css("width"));
+var optsSearchAreaW = optionsDisplayW;
+var searchBarH = parseInt($("#opt-search").css("height"));
+$("#opts-search-area-block").css("height", (searchBarH + 8) + "px");
+$("#opts-search-area-block").css("width", optsSearchAreaW + "px");
+var searchBarW = optsSearchAreaW - 80 - searchBarH;
+$("#opt-search").css("width", searchBarW + "px");
 
-$(textArea).css("top", (((0.7 * indProAreaH) / 2) - (taH / 2))  + "px");
-$(textArea).css("left",  "100px");
+$("#search-opts-button").css("width", (searchBarH+4) + "px");
+$("#search-opts-button").css("height", (searchBarH+4) + "px");
 
-$("#close-ind").click(function(){
-	$("#individual-product-area").css("bottom", "100vh");
-});
 
 
