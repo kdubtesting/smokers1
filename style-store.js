@@ -1,90 +1,118 @@
+var menuArea = document.getElementById("in-menu-area");
+var menuAreaChildren = menuArea.childNodes;
+
+menuArea.removeChild(menuAreaChildren[1]);
+
 var companyHeader = document.getElementById("company-header");
 var companyHeaderH = parseInt($(companyHeader).css("height"));
+var companyHeaderW = parseInt($(companyHeader).css("width"));
 var windowH = parseInt(window.innerHeight);
+
+//This will be the options area
+var optionsAreaW = companyHeaderW + 70;
+$("#options-area").css("width", optionsAreaW + "px");
+
+$("#search-title").css("margin-top", (companyHeaderH + 60) + "px");
 
 //This will set the product area height
 var productAreaH = windowH - (companyHeaderH + 60);
-var productAreaW = parseInt($("#products-area").css("width"));
-
 $("#products-area").css("height", productAreaH + "px");
 
-//This will set the height and width of the 
-//multiple product cards
+//This will make the product cards in the product area, and it will
+//use the variables declared outside because these variables will not change for the
+//rest of the code
 var productItems = document.getElementsByClassName("product-items");
-var productItemsW = productAreaW / 4; //This is the initial size, afterwards it will be 3, then 2, then finally 1
-var productItemsH = productItemsW + 80;
-
-var counter = 1;
-var divident = 4;
-var positionLeft = 0;
-var positionTop = 0;
-
-for(var i = 0; i < productItems.length; i++)
-{
-	productItems[i].style.height = productItemsH + "px";
-	productItems[i].style.width = productItemsW + "px";
-	productItems[i].style.left = (positionLeft % productAreaW) + "px";
-	positionLeft += productItemsW;
-	if(((i % divident) / 4) == 0 && (i != 0))
-	{
-		positionTop += productItemsH;
-	}
-	productItems[i].style.top = positionTop + "px";
-}
-
-positionTop += productItemsH;
-
-var differencePA = productAreaH - productItemsH;
-
-positionTop += differencePA;
-
-$("#in-product-area").css("height", positionTop + "px");
-
-//This is the individual product area and the individual product image 
+var productItemsH = parseInt($(productItems[0]).css("height"));
 var indProductArea = document.getElementsByClassName("ind-product-area");
-var ipaW = parseInt($(indProductArea[0]).css("width"));
-var productImage = document.getElementsByClassName("product-image");
 
-for(var i = 0; i < productImage.length; i++)
+var viewProd = document.getElementsByClassName("view-prod");
+var viewProdW = parseInt($(viewProd[0]).css("width"));
+var buyProd = document.getElementsByClassName("buy-prod");
+var buyProdW = parseInt($(buyProd[0]).css("width"));
+
+var indProductAreaW = viewProdW + buyProdW + 10;
+
+for(var i = 0; i < indProductArea.length; i++)
 {
-	$(productImage[i]).css("height", ipaW + "px");
+	$(indProductArea[i]).css("width", indProductAreaW + "px");
 }
 
-//Above is all the product cards sized to the product area
-//I need to add a resizing function so that as the size gets smaller
-//The internals don't get crushed
+var productImages = document.getElementsByClassName("product-image");
+var productImagesW = parseInt($(productImages[0]).css("width"));
 
-//This is the options area
-var optionsButtonH = parseInt($("#options-button").css("height"));
-var optionsButtonTop = (productAreaH / 2) - (optionsButtonH / 2);
-$("#options-button").css("top", (optionsButtonTop + companyHeaderH + 60) + "px");
+function styleProdCards(windowW)
+{
+	var productAreaW = windowW * 0.9;
+	console.log(productAreaW);
+	var productItemsW = productAreaW / 4;
 
-//This is the styling for the store options
-var windowW = parseInt(window.innerWidth);
-var optionsDisplayW = windowW - productAreaW - 90;
-$("#options-display").css("width", optionsDisplayW + "px");
-var optionsDisplayH = parseInt($("#options-display").css("height"));
-var optionsDisplayTop = (productAreaH / 2) - (optionsDisplayH / 2);
-$("#options-display").css("top", (optionsDisplayTop + companyHeaderH + 60) + "px");
+	var divident = 4;
 
-var optsSearchAreaW = optionsDisplayW;
-var searchBarH = parseInt($("#opt-search").css("height"));
-$("#opts-search-area-block").css("height", (searchBarH + 8) + "px");
-$("#opts-search-area-block").css("width", optsSearchAreaW + "px");
-var searchBarW = optsSearchAreaW - 80 - searchBarH;
-$("#opt-search").css("width", searchBarW + "px");
+	if(indProductAreaW > productItemsW)
+	{
+		productItemsW = productAreaW / 3;
+		divident = 3;
+		if(indProductAreaW > productItemsW)
+		{
+			productItemsW = productAreaW / 2;
+			divident = 2;
+			if(indProductAreaW > productItemsW)
+			{
+				productItemsW = productAreaW;
+				divident = 1;
+			}
+		}
+	}
 
-$("#search-opts-button").css("width", (searchBarH+4) + "px");
-$("#search-opts-button").css("height", (searchBarH+4) + "px");
+	var productItemLeft = 0;
+	var productItemTop = 0;
 
+	for(var i = 0; i < productItems.length; i++)
+	{
+		//This sets the position of the individual product cards
+		$(productItems[i]).css("width", productItemsW + "px");
 
-$("#between-area").css("width", optsSearchAreaW + "px");
-$("#between-area").css("height", (searchBarH + 8) + "px");
+		if(i == 0)
+		{
+			$(productItems[i]).css("left", productItemLeft + "px");
+			$(productItems[i]).css("top", productItemTop + "px");
+			productItemLeft += productItemsW;
+		}
+		else if((i % divident != 0))
+		{
+			$(productItems[i]).css("left", productItemLeft + "px");
+			$(productItems[i]).css("top", productItemTop + "px");
+			productItemLeft += productItemsW;
+		}
+		else
+		{
+			productItemTop += productItemsH;
+			productItemLeft = 0;
+			$(productItems[i]).css("left", productItemLeft + "px");
+			$(productItems[i]).css("top", productItemTop + "px");
+			productItemLeft += productItemsW;
+		}
 
-$("#lower-price").css("left", "30px");
-var lpW = parseInt($("#lower-price").css("width"));
-var andW = parseInt($("#and").css("width"));
-$("#and").css("left", (lpW + 40) + "px");
-$("#high-price").css("left", (andW + lpW + 50) + "px");
+		//This will position the individual product are in the center
+		$(indProductArea[i]).css("margin-left", ((productItemsW / 2) - (indProductAreaW / 2)) + "px");
 
+		//This will position the product image
+		$(productImages[i]).css("margin-left", ((indProductAreaW / 2) - (productImagesW / 2)) + "px");
+	}
+
+	productItemTop += productItemsH;
+
+	var difference = productAreaH - productItemsH;
+	productItemTop += difference
+
+	$("#in-product-area").css("height", productItemTop + "px");
+}
+
+//Initial display
+styleProdCards(parseInt(window.innerWidth));
+
+$(window).on("resize", function(){
+	console.log(window.innerWidth);
+	styleProdCards(parseInt(window.innerWidth));
+});
 
