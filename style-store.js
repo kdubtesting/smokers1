@@ -108,11 +108,129 @@ function styleProdCards(windowW)
 	$("#in-product-area").css("height", productItemTop + "px");
 }
 
+//This will be the javascript for the options area
+function styleOptions()
+{
+	var optionsTitle = document.getElementsByClassName("options-title");
+	var optionsTitleH = parseInt($(optionsTitle[0]).css("height"))
+	var titleText = document.getElementsByClassName("title-text");
+	var titleTextH = parseInt($(titleText[0]).css("height"));
+
+	for(var i = 0; i < optionsTitle.length; i++)
+	{
+		$(titleText[i]).css("margin-top", ((optionsTitleH / 2) - (titleTextH / 2)) + "px")
+	}
+
+	//This is the style for the search bar
+	var searchBarArea = document.getElementById("search-bar-area");
+	var searchBarAreaW = parseInt($(searchBarArea).css("width"));
+	var searchBar = document.getElementById("search-bar");
+	var searchBarH = parseInt($(searchBar).css("height"));
+	var ref = document.getElementById("ref");
+	var refW = parseInt($(ref).css("width"));
+	$(searchBarArea).css("height", (searchBarH + 4) + "px");
+	$(searchBar).css("width", (refW + 20) + "px");
+	$("#search-button-opt").css("height", searchBarH + "px");
+	$("#search-button-opt").css("width", searchBarH + "px");
+
+	var optionsDisplayArea = document.getElementsByClassName("options-display-area");
+	$(optionsDisplayArea[0]).css("height", (searchBarH + 34) + "px");
+
+	$(searchBarArea).css("margin-top", (((searchBarH + 34) / 2) - ((searchBarH + 4) / 2)) + "px");
+
+	//This is the type-area
+	var typeAreaCheck = document.getElementById("type-area-checks");
+	var typeAreaCheckH = parseInt($(typeAreaCheck).css("height"));
+
+	$(optionsDisplayArea[1]).css("height", (typeAreaCheckH + 30) + "px");
+	$(typeAreaCheck).css("margin-top", (((typeAreaCheckH + 30) / 2) - (typeAreaCheckH / 2)) + "px");
+
+	//This is the price range area
+	var radioArea = document.getElementById("radio-area");
+	var radioAreaH = parseInt($(radioArea).css("height"));
+	var numberInput = document.getElementsByClassName("number-input");
+	var numberInputH = parseInt($(numberInput[0]).css("height"));
+	var numberInputW = parseInt($(numberInput[0]).css("width"));
+	var rangeArea = document.getElementById("range-area");
+	var inRangeArea = document.getElementById("in-range-area");
+	var and = document.getElementById("and");
+	var andW = parseInt($(and).css("width"));
+
+	$(rangeArea).css("height", (numberInputH + 16) + "px");
+	$(inRangeArea).css("height", (numberInputH + 16) + "px");
+	$(numberInput[0]).css("left", "30px");
+	$(and).css("left", (numberInputW + 40) + "px");
+	$(numberInput[1]).css("left", (numberInputW + andW + 50) + "px");
+
+	var totalRangeHeight = (numberInputH + 16) + radioAreaH;
+
+	$(optionsDisplayArea[2]).css("height", (totalRangeHeight + 30) + "px");
+	$(radioArea).css("margin-top", (((totalRangeHeight + 30) / 2) - (totalRangeHeight / 2)) + "px");
+}
+
+//This is the options button
+var optionsButton = document.getElementById("options-button");
+var optionsButtonH = parseInt($(optionsButton).css("height"));
+
+$(optionsButton).css("top",  ((companyHeaderH + 60) + ((productAreaH / 2) - (optionsButtonH / 2))) + "px");
+
+//This will style the options
+styleOptions();
+
 //Initial display
+var windowRW = parseInt(window.innerWidth); //This is the resize width, it is set to the initial width
 styleProdCards(parseInt(window.innerWidth));
 
+//This will be the options area
+var optionsArea = document.getElementById("options-area");
+var optionsAreaW = parseInt($(optionsArea).css("width"));
+
+var optionsOpen = 0;
+
+$(optionsButton).click(function() {
+	$("#options-area").css("left", "0px");
+	var windowWidthOpt = windowRW - optionsAreaW;
+	var productWidthOpt = 0.9 * windowWidthOpt;
+
+	var right = (windowWidthOpt / 2) - (productWidthOpt / 2);
+	$("#products-area").css("width", productWidthOpt + "px");
+	styleProdCards(windowWidthOpt);
+
+	$("#products-area").css("right", right + "px");
+	optionsOpen = 1;
+});
+
+var openCloseOpts = document.getElementsByClassName("open-close-opts");
+var optDisplayArea = document.getElementsByClassName("options-display-area");
+
+$(openCloseOpts[0]).click(function(){
+	$(optDisplayArea[0]).css("height", "0px");
+});
+
+$(openCloseOpts[1]).click(function(){
+	$(optDisplayArea[1]).css("height", "0px");
+});
+
+$(openCloseOpts[2]).click(function(){
+	$(optDisplayArea[2]).css("height", "0px");
+});
+
 $(window).on("resize", function(){
-	console.log(window.innerWidth);
-	styleProdCards(parseInt(window.innerWidth));
+	windowRW = parseInt(window.innerWidth);
+	if(optionsOpen == 0)
+	{
+		styleProdCards(parseInt(window.innerWidth));
+	}
+	else
+	{
+		$("#options-area").css("left", "0px");
+		var windowWidthOpt = windowRW - optionsAreaW;
+		var productWidthOpt = 0.9 * windowWidthOpt;
+
+		var right = (windowWidthOpt / 2) - (productWidthOpt / 2);
+		$("#products-area").css("width", productWidthOpt + "px");
+		$("#products-area").css("right", right + "px");
+		styleProdCards(windowWidthOpt);
+	}
 });
 

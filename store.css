@@ -21,10 +21,13 @@
 	width:90%;
 	height:auto;
 	position:absolute;
-	bottom:0px;
 	right:5%;
+	bottom:0px;
 	overflow-x:hidden;
 	overflow-y:scroll;
+	transition-property:width;
+	transition-duration:0.5s;
+	transition-timing-function:linear;
 }
 
 #products-area::-webkit-scrollbar
@@ -42,7 +45,7 @@
 .product-items
 {
 	position:absolute;
-	background-color:#A6333F;
+	/*background-color:#A6333F;*/
 	transition-property:left, top;
 	transition-duration:0.25s;
 	transition-timing-function:linear;
@@ -124,16 +127,30 @@
 }
 
 /*This is the options area*/
+#options-button
+{
+	width:3em;
+	height:3em;
+	border-radius:10px;
+	box-shadow:inset 0 0 0 1px #fff;
+	position:absolute;
+	z-index:10000000;
+	left:30px;
+}
+
 #options-area
 {
 	width:20em;
 	height:100vh;
-	background-color:#8C313A;
+	background-color:#782b33;
 	position:absolute;
-	left:0px;
+	left:-20em;
 	top:0px;
-	z-index:10000000;
+	z-index:100000000;
 	overflow:hidden;
+	transition-property:left;
+	transition-duration:0.5s;
+	transition-timing-function:linear;
 }
 
 .options-title
@@ -141,8 +158,176 @@
 	width:100%;
 	height:3em;
 	overflow:hidden;
-	box-shadow:inset 0 0 0 1px #fff;
 	position:relative;
 }
+
+.title-text
+{
+	color:#fff;
+	font-family:sans-serif;
+	font-weight:bolder;
+	font-size:16px;
+	text-transform:uppercase;
+	margin-top:0px;
+	margin-bottom:0px;
+	margin-left:30px;
+}
+
+.open-close-opts
+{
+	width:1.5em;
+	height:1.5em;
+	border-radius:5px;
+	box-shadow:inset 0 0 0 1px #fff;
+	position:absolute;
+	top:calc(1.5em / 2);
+	right:10px;
+	overflow:hidden;
+}
+
+.open-close-opts:hover
+{
+	background-color:#fff;
+}
+
+.options-display-area
+{
+	width:100%;
+	overflow:hidden;
+	margin:0px;
+	box-shadow:inset 0 0 5px #70272f;
+	background-color:#8C313A;
+	transition-property:height;
+	transition-duration:0.25s;
+	transition-timing-function:linear;
+}
+
+/*This is the search bar*/
+
+#search-bar-area
+{
+	width:100%;
+	overflow:hidden;
+	position:relative;
+}
+
+#search-bar
+{
+	border:none;
+	border-bottom:2px solid #fff;
+	font-family:sans-serif;
+	font-weight:lighter;
+	font-size:16px;
+	background-color:transparent;
+	outline:none;
+	color:#fff;
+	position:absolute;
+	left:30px;
+	bottom:0px;
+}
+
+#search-button-opt
+{
+	border:2px solid #fff;
+	position:absolute;
+	bottom:0px;
+	right:30px;
+}
+
+#search-bar::placeholder
+{
+	color:#fff;
+}
+
+#ref
+{
+	display:none;
+	font-family:sans-serif;
+	font-size:16px;
+	font-weight:lighter
+}
+
+/*Smoke type area*/
+#type-area-checks
+{
+	overflow:hidden;
+}
+
+#type-area-checks > label
+{
+	font-weight:lighter;
+	font-size:16px;
+	font-family:sans-serif;
+	color:#fff;
+	margin-left:30px;
+}
+
+/*Smoke Radio Area*/
+
+#radio-area
+{
+	width:100%;
+}
+
+#radio-area > input
+{
+	margin-left:30px;
+}
+
+#radio-area > label
+{
+	font-weight:lighter;
+	font-size:16px;
+	font-family:sans-serif;
+	color:#fff;
+}
+
+#range-area
+{
+	width:100%;
+	overflow:hidden;
+	transition-property:height;
+	transition-duration:0.5s;
+	transition-timing-function:linear;
+}
+
+#in-range-area
+{
+	width:100%;
+	position:relative;
+}
+
+.number-input
+{
+	font-family:sans-serif;
+	font-size:16px;
+	font-weight:lighter;
+	color:#fff;
+	background-color:transparent;
+	outline:none;
+	border:none;
+	border-bottom:2px solid #fff;
+	position:absolute;
+	width:5em;
+	bottom:0px;
+}
+
+.number-input::placeholder
+{
+	color:#fff;
+}
+
+#and
+{
+	font-family:sans-serif;
+	font-size:16px;
+	font-weight:lighter;
+	position:absolute;
+	color:#fff;
+	margin:0px;
+	bottom:2px;
+}
+
+
 
 
