@@ -3,6 +3,7 @@
 var companyHeader = document.getElementById("company-header");
 var chW = parseInt($(companyHeader).css("width")); //company header width
 var chH = parseInt($(companyHeader).css("height")); //company header height
+var chBarier = chW + 60;
 
 //This is the menu background, just incase anything needs to slide
 //from behind the menu
@@ -10,73 +11,255 @@ var menuBackground = document.getElementById("menu-background");
 
 menuBackground.style.height = (chH + 60) + "px";
 
-//This will be setting the height and width of the menu area
-var menuArea = document.getElementById("menu-area");
-var inMenuArea = document.getElementById("in-menu-area");
-menuArea.style.height = (chH + 60) + "px";
-inMenuArea.style.height = (chH + 60) + "px";
+var menuButton = document.getElementById("menu-button");
+var menuButtonH = parseInt($(menuButton).css("height"));
 
-var inSearchArea = document.getElementById("in-search-area");
-var menuSearch = document.getElementById("menu-search");
-var msH = parseInt($(menuSearch).css("height")); //menu search height
-var msW = parseInt($(menuSearch).css("width")); //menu search width
+$(menuButton).css("top", (((chH + 60) / 2) - (menuButtonH / 2)) + "px");
 
-$(inSearchArea).css("width", (msW + msH + 70) + "px");
-$(inSearchArea).css("height", (msH + 4) + "px");
-$("#search-area").css("height", (chH + 60) + "px");
-$("#search-area").css("width", (msW + msH + 70) + "px");
-$(menuArea).css("width", (msW + msH + 70) + "px");
-$(inMenuArea).css("width", (msW + msH + 70) + "px");
-$("#search-button").css("width", (msH + 4) + "px");
-$(menuSearch).css("left", "30px");
-$("#search-button").css("right", "30px");
+var refLW = 0;
+var refLH = 0;
 
-$("#search-area").on("mouseenter", function(){
-	$(this).css("background-color", "#8C313A");
-});
+var refSW = 0;
+var refSH = 0;
 
-$("#search-area").on("mouseleave", function(){
-	$(this).css("background-color", "#A6333F");
-});
-
-$(inSearchArea).css("margin-top", (((chH + 60) / 2) - ((msH + 4) / 2)) + "px");
-
-var linkArea = document.getElementById("link-area");
-$(linkArea).css("left", (msW + msH + 70) + "px");
-$(linkArea).css("height", (chH + 60) + "px");
-
-var linkAreaLength = 0;
-var blockLeft = 0;
-var menuBlock = document.getElementsByClassName("menu-block");
-var menuText = document.getElementsByClassName("menu-text");
-
-for(var i = 0; i < menuText.length; i++)
+/*function menuStyleSmall()
 {
-	var mtW = parseInt($(menuText[i]).css("width"));
-	linkAreaLength += mtW + 60;
-	menuBlock[i].style.width = (mtW + 60) + "px";
-	menuBlock[i].style.height = (chH + 60) + "px";
-	menuBlock[i].style.left = blockLeft + "px";
-	blockLeft += mtW + 60;
-	var mtH = parseInt($(menuText).css("height"));
-	menuText[i].style.marginTop = (((chH + 60) / 2) - (mtH / 2)) + "px"
+	$("#menu-button").css("display", "block");
+	$("#menu-area").css("z-index", "100");
+	$("#menu-area").css("width", "20em");
+	var menuBlock = document.getElementsByClassName("menu-block");
+	for(var i = 0; i < menuBlock.length; i++)
+	{
+		$(menuBlockH[i]).css("height", "4em");
+		$(menuBlockH[i]).css("width", "20em");
+		$(menuBlockH[i]).css("text-align", "left");
+	}
+	var menuBlockH = parseInt($(menuBlock[0]).css("height"));
+
+	var menuBlockTop = chH + 60;
+
+	var menuText = document.getElementsByClassName("menu-text");
+	var menuTextH = parseInt($(menuText[0]).css("height"));
+
+	for (var i = 0; i < menuBlock.length; i++)
+	{
+		$(menuBlock[i]).css("top", menuBlockTop + "px");
+		menuBlockTop += menuBlockH;
+		$(menuText[i]).css("margin-top", ((menuBlockH / 2) - (menuTextH / 2)) + "px");
+		$(menuText[i]).css("margin-left", "30px");
+	}
+
+	var searchBar = document.getElementById("menu-search");
+	var searchBarH = parseInt($(searchBar).css("height"));
+	var searchBarW = parseInt($(searchBar).css("width"));
+	var searchTop = menuBlockTop + ((menuBlockH / 2) - (searchBarH / 2));
+	$(searchBar).css("top", searchTop + "px");
+
+	var searchButton = document.getElementById("search-button");
+	$(searchButton).css("height", "31px");
+	$(searchButton).css("width", "31px");
+
+	var searchButtonL = searchBarW + 40 + 15;
+
+	$(searchButton).css("left", searchButtonL + "px");
+	$(searchButton).css("top", searchTop + "px");
+
+	var clickMenu = 0;
+
+	$(menuButton).click(function(){
+		if(clickMenu % 2 == 0)
+		{
+			$("#menu-area").css("right", "0px");
+		}
+		else{
+			$("#menu-area").css("right", "-20em");
+		}
+		clickMenu++;
+	});
+*/
+
+function menuStyling(e)
+{
+	var menuArea = document.getElementById("menu-area");
+	var menuButton = document.getElementById("menu-button");
+	var searchBar = document.getElementById("menu-search");
+	var searchBarW = parseInt($(searchBar).css("width"));
+	var menuBlocks = document.getElementsByClassName("menu-block");
+	var menuText = document.getElementsByClassName("menu-text");
+	if(e == 0)
+	{
+		//This will be the regular style
+		$(menuButton).css("display", "none");
+		$(menuArea).css("height", (chH + 60) + "px");
+		$(menuArea).css("top", "0px");
+		$(menuArea).css("right", "0px");
+		$(menuArea).css("box-shadow", "none");
+
+		for(var i = 0; i < menuBlocks.length; i++)
+		{
+			$(menuBlocks[i]).css("height", "auto");
+			$(menuBlocks[i]).css("width", "auto");
+			$(menuBlocks[i]).css("top", "0px");
+		}
+
+		var menuBlocksLength = 0;
+		var menuBlockMarginLeft = searchBarW + 80 + 40.1;
+
+		for(var i = 0; i < menuBlocks.length; i++)
+		{
+			$(menuBlocks[i]).css("height", (chH + 60) + "px");
+			$(menuBlocks[i]).css("text-align", "center");
+			$(menuBlocks[i]).css("background-color", "#A6333F")
+			var wordLength = parseInt($(menuText[i]).css("width"));
+			var menuBlockIndL = wordLength + 60;
+			console.log(menuBlockIndL);
+			$(menuBlocks[i]).css("width", menuBlockIndL + "px");
+			$(menuBlocks[i]).css("margin-left", menuBlockMarginLeft + "px");
+			menuBlockMarginLeft += menuBlockIndL;
+			var wordHeight = parseInt($(menuText[i]).css("height"));
+			$(menuText[i]).css("margin-top", (((chH + 60) / 2) - (wordHeight / 2)) + "px");
+			$(menuText[i]).css("margin-left", "0px");
+			menuBlocksLength += menuBlockIndL;
+		}
+
+		$(searchBar).css("top", (((chH + 60) / 2) - (30.1 / 2)) + "px");
+
+		$("#search-button").css("width", "30.1px");
+		$("#search-button").css("height", "30.1px");
+		$("#search-button").css("left", (30 + searchBarW + 20 + 10) + "px");
+		$("#search-button").css("top", (((chH + 60) / 2) - (30.1 / 2)) + "px");
+
+
+		$(menuArea).css("width", (menuBlocksLength + searchBarW + 80 + 40.1) + "px");
+		refLW = parseInt($(menuArea).css("width"));
+		refLH = parseInt($(menuArea).css("height"));
+	}
+	else
+	{
+		//This is the smaller style
+		$(menuButton).css("display", "block");
+		$(menuArea).css("width", "20em");
+		$(menuArea).css("height", "100vh");
+		$(menuArea).css("box-shadow", "0 0 5px rgba(0,0,0,0.4)");
+
+		refSW = parseInt($(menuArea).css("width"));
+		refSH = parseInt($(menuArea).css("height"));
+
+		for(var i = 0; i < menuBlocks.length; i++)
+		{
+			$(menuBlocks[i]).css("height", "4em");
+			$(menuBlocks[i]).css("width", "20em");
+			$(menuBlocks[i]).css("text-align", "left");
+			$(menuBlocks[i]).css("margin-left", "0px");
+		}
+		var menuBlockH = parseInt($(menuBlocks[0]).css("height"));
+
+		var menuBlockTop = chH + 60;
+
+		var menuTextH = parseInt($(menuText[0]).css("height"));
+
+		for (var i = 0; i < menuBlocks.length; i++)
+		{
+			$(menuBlocks[i]).css("top", menuBlockTop + "px");
+			menuBlockTop += menuBlockH;
+			$(menuText[i]).css("margin-top", ((menuBlockH / 2) - (menuTextH / 2)) + "px");
+			$(menuText[i]).css("margin-left", "30px");
+		}
+
+		var searchBarH = parseInt($(searchBar).css("height"));
+		var searchTop = menuBlockTop + ((menuBlockH / 2) - (searchBarH / 2));
+		$(searchBar).css("top", searchTop + "px");
+
+		var searchButton = document.getElementById("search-button");
+		$(searchButton).css("height", "31px");
+		$(searchButton).css("width", "31px");
+
+		var searchButtonL = searchBarW + 40 + 15;
+
+		$(searchButton).css("left", searchButtonL + "px");
+		$(searchButton).css("top", searchTop + "px");
+
+		var clickMenu = 1;
+
+		$(menuButton).click(function(){
+			if(clickMenu % 2 == 0)
+			{
+				$("#menu-area").css("right", "0px");
+			}
+			else{
+				$("#menu-area").css("right", "-20em");
+			}
+			clickMenu++;
+		});
+	}
 }
 
-for(var i = 0; i < menuBlock.length; i++)
+//menuStyleSmall();
+
+/*
+function menuStyleLarge()
 {
-	$(menuBlock[i]).on("mouseenter", function(){
-		$(this).css("background-color", "#8C313A");
-	});
+	
+	var searchBar = document.getElementById("menu-search");
+	var searchBarW = parseInt($(searchBar).css("width"));
 
-	$(menuBlock[i]).on("mouseleave", function(){
-		$(this).css("background-color", "#A6333F");
-	});
+	var menuBlocks = document.getElementsByClassName("menu-block");
+	var menuText = document.getElementsByClassName("menu-text");
+	var menuBlocksLength = 0;
+	var menuBlockMarginLeft = searchBarW + 80 + 40.1;
+
+	for(var i = 0; i < menuBlocks.length; i++)
+	{
+		$(menuBlocks[i]).css("height", (chH + 60) + "px");
+		$(menuBlocks[i]).css("text-align", "center");
+		$(menuBlocks[i]).css("background-color", "#A6333F")
+		var wordLength = parseInt($(menuText[i]).css("width"));
+		var menuBlockIndL = wordLength + 60;
+		console.log(menuBlockIndL);
+		$(menuBlocks[i]).css("width", menuBlockIndL + "px");
+		$(menuBlocks[i]).css("margin-left", menuBlockMarginLeft + "px");
+		menuBlockMarginLeft += menuBlockIndL;
+		var wordHeight = parseInt($(menuText[i]).css("height"));
+		$(menuText[i]).css("margin-top", (((chH + 60) / 2) - (wordHeight / 2)) + "px");
+		$(menuText[i]).css("margin-left", "0px");
+		menuBlocksLength += menuBlockIndL;
+	}
+
+	$(searchBar).css("top", (((chH + 60) / 2) - (30.1 / 2)) + "px");
+
+	$("#search-button").css("width", "30.1px");
+	$("#search-button").css("height", "30.1px");
+	$("#search-button").css("left", (30 + searchBarW + 20 + 10) + "px");
+	$("#search-button").css("top", (((chH + 60) / 2) - (30.1 / 2)) + "px");
+
+
+	$("#menu-area").css("width", (menuBlocksLength + searchBarW + 80 + 40.1) + "px");
 }
+*/
 
-$("#link-area").css("width", linkAreaLength + "px");
-$("#in-link-area").css("width", linkAreaLength + "px");
-$(menuArea).css("width", (msW + msH + 70 + linkAreaLength) + "px");
-$(inMenuArea).css("width", (msW + msH + 70 + linkAreaLength) + "px");
+menuStyling(0);
+menuStyling(1);
+menuStyling(0);
+
+console.log("reflH" + refLH);
+console.log("refLW" + refLW);
+console.log("refSW" + refSW);
+console.log("refSH" + refSH);
+
+$(window).resize(function(){
+	var windowW = window.innerWidth;
+	var diffL = chW + 60;
+	var diffR = windowW - refLW;
+	if(diffR <= diffL)
+	{
+		menuStyling(1);
+	}
+	else
+	{
+		menuStyling(0);
+	}
+});
+
 
 
 
