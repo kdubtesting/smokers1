@@ -129,6 +129,17 @@ function menuStyling(e)
 		$("#search-button").css("left", (30 + searchBarW + 20 + 10) + "px");
 		$("#search-button").css("top", (((chH + 60) / 2) - (30.1 / 2)) + "px");
 
+		for(var i = 0; i < menuBlocks.length; i++)
+		{
+			$(menuBlocks[i]).on("mouseenter", function(){
+				$(this).css("box-shadow", "0 0 5px rgba(0,0,0,0.4)");
+			});
+
+			$(menuBlocks[i]).on("mouseleave", function(){
+				$(this).css("box-shadow", "none");
+			});
+			
+		}
 
 		$(menuArea).css("width", (menuBlocksLength + searchBarW + 80 + 40.1) + "px");
 		refLW = parseInt($(menuArea).css("width"));
@@ -239,12 +250,18 @@ function menuStyleLarge()
 
 menuStyling(0);
 menuStyling(1);
-menuStyling(0);
 
-console.log("reflH" + refLH);
-console.log("refLW" + refLW);
-console.log("refSW" + refSW);
-console.log("refSH" + refSH);
+var windowWI = window.innerWidth;
+var diffLI = chW + 60;
+var diffRI = windowWI - refLW;
+if(diffRI <= diffLI)
+{
+	menuStyling(1);
+}
+else
+{
+	menuStyling(0);
+}
 
 $(window).resize(function(){
 	var windowW = window.innerWidth;
