@@ -2,176 +2,55 @@
 <html lang="en">
 	
 	<head>
-		
-		<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" charset="utf-8">
-		<title>Smokers 1 | Since 2002</title>
-		<link rel="stylesheet" type="text/css" href="home.css">
-		<link rel="stylesheet" type="text/css" href="menu.css">
-		<!--<link rel="stylesheet" type="text/css" href="home2.css">
-		<link rel="stylesheet" type="text/css" href="menu2.css">-->
-
+		<meta name="viewport" charse="utf-8" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale">
+		<title>Smokers 1 | since 2002</title>
+		<link rel="stylesheet" type="text/css" href="css/menu.css">
+		<link rel="stylesheet" type="text/css" href="css/home.css">
 	</head>
 
 	<body>
 		
-		<div id="home-display">
+		<div id="menu-area">
 			
-			<div id="inner-home">
+			<h4 id="company-header">Smokers 1 | <span>since 2002</span></h4>
 
-				<h4 id="company-header">Smokers 1 <span id="thin">| since 2002</span></h4>
-
-				<div id="menu-background"></div>
-
-				<div id="menu-button"></div>
-
-				<div id="menu-area">
-					
-					<div id="in-menu-area">
-
-						<input type="text" id="menu-search" name="menu-search" placeholder="search our store here">
-
-						<div id="search-button"></div>
-
-						<a href="about.html">
-							<div class="menu-block">
-								
-								<h4 class="menu-text">About</h4>
-
-							</div>
-						</a>
-
-						<a href="store.html">
-							<div class="menu-block">
-							
-								<h4 class="menu-text">Store</h4>
-
-							</div>
-						</a>
-
-						<a href="contact.html">
-							<div class="menu-block">
-							
-								<h4 class="menu-text">Contact</h4>
-
-							</div>
-						</a>
-
-					</div>
-
-				</div>
-
-				<div id="carosel-area">
-					
-					<div id="in-carosel">
-						
-						<div class="product-card">
-							
-							<div class="in-product-card">
-								
-								<div class="images-area">
-									
-									<div class="in-image">
-										
-										<div class="image-opts">
-											
-											<div class="in-image-opts">
-												
-												<div class="top-more">
-													
-													<div class="more-button"></div>
-
-												</div>
-
-												<div class="image-roll">
-													
-													<div class="more-image"></div>
-
-													<div class="more-image"></div>
-
-													<div class="more-image"></div>
-
-													<div class="more-image"></div>
-
-												</div>
-
-												<div class="bottom-more">
-													<div class="more-button"></div>
-													
-												</div>
-
-											</div>
-
-										</div>
-
-										<div class="image-dis"></div>
-
-									</div>
-
-								</div>
-
-								<div class="desc-area">
-									
-									<div class="in-desc">
-										
-										<div class="desc">
-											
-											<h4 class="prod-name">Test Name</h4>
-
-											<h3 class="price">$$$.$$</h3>
-
-											<p class="desc-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-											<label class="amount">Select amount: <input type="number" class="amount-number" name="amount-number" placeholder="1"></label><br>
-
-											<button class="buy">Purchase Item</button>
-
-										</div>
-
-									</div>
-
-								</div>
-
-							</div>
-
-						</div>
-
-					</div>
-
-				</div>
-
-				<div id="tracker-buttons">
-					
-					<div class="tracker-area">
-						
-						<div class="tracker-icons"></div>
-
-					</div>
-
-					<div class="tracker-area">
-						
-						<div class="tracker-icons"></div>
-
-					</div>
-
-					<div class="tracker-area">
-						
-						<div class="tracker-icons"></div>
-
-					</div>
-
-					<div class="tracker-area">
-						
-						<div class="tracker-icons"></div>
-
-					</div>
-
-				</div>
-
-				<button id="view-store">View Store</button>
-
-			</div> 
+			<div id="links-area">
 				
-		</div>	
+				<div id="search-section"></div>
+
+				<a href="#">
+					<div class="menu-opts">
+						<h4 class="menu-texts">About</h4>
+					</div>
+				</a>
+
+				<a href="#">
+					<div class="menu-opts">
+						<h4 class="menu-texts">Store</h4>
+					</div>
+				</a>
+
+				<a href="#">
+					<div class="menu-opts">
+						<h4 class="menu-texts">Contact</h4>
+					</div>
+				</a>
+
+			</div>
+
+		</div>
+
+		<div id="product-area">
+
+			<div id="product-carosel"></div>
+
+			<div id="options-area"></div>
+
+		</div>
+
+		<a id="view-store" href="store.html">
+			<button id="view-store-button">View Store</button>
+		</a>
 
 	</body>
 
@@ -179,9 +58,7 @@
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous"></script>
-  	<!--<script type="text/javascript" src="style-menu-2.js"></script>
-  	<script type="text/javascript" src="style-home-2.js"></script>-->
-	<script type="text/javascript" src="style-home.js"></script>
-	<script type="text/javascript" src="style-menu.js"></script>
+  	<script type="text/javascript" src="java/menu.js"></script>
+  	<script type="text/javascript" src="java/home.js"></script>
 
 </html>
