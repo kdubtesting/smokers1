@@ -91,7 +91,4 @@ $(window).on("resize", function(){
 	{
 		ogLength = largeMenu();
 	}
-	console.log("ogLength: " + ogLength);
-	console.log("WindowW - ogLength = " + (windowW - ogLength));
-	console.log("company header barrier: " + companyHeaderBarrier);
 });
