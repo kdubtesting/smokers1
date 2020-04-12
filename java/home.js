@@ -126,30 +126,72 @@ function styleMainDescription()
 
 function styleSideDescription()
 {
-	//This is the style for the product card
+	//This is the product cards height
 	var productCards = document.getElementsByClassName("product-card");
-	var smallInstructions = document.getElementsByClassName("small-instructions");
-	var smallInstructionsH = parseInt($(smallInstructions[0]).css("height"));
-
-	$(productCards[0]).css("height", "calc(23.5em + " + smallInstructionsH + "px + 48px)");
-
+	productCards[0].style.height = "27em";
 	var productCardsH = parseInt($(productCards[0]).css("height"));
+	productCards[0].style.top = ((productCaroselH / 2) - (productCardsH / 2)) + "px";
 
-	$(productCards[0]).css("top", ((productCaroselH / 2) - (productCardsH / 2)) + "px");
-
-	//This will be the side description v
+	//This will be the side description 
 	var sideDescriptions = document.getElementsByClassName("side-description");
 	sideDescriptions[0].style.left = "calc(25em + 20px)";
 	sideDescriptions[0].style.height = productCardsH + "px";
 	sideDescriptions[0].style.width = "25em";
 	sideDescriptions[0].style.top = ((productCaroselH / 2) - (productCardsH / 2)) + "px";
 
-	var scrollDescription = document.getElementsByClassName("scroll-side-description");
+	var buttonSection = document.getElementsByClassName("button-section");
+	var buttonSectionH = parseInt($(buttonSection[0]).css("height"));
 
-	var productName = document.createElement("DIV");
+	var descriptionScroll = document.getElementsByClassName("description-scroll");
+	var descriptionScrollH = productCardsH - buttonSectionH;
+	$(descriptionScroll[0]).css("height", descriptionScrollH + "px");
+	
 }
 
 styleSideDescription();
+
+var productCards = document.getElementsByClassName("product-card");
+
+var clickCurrent = 0;
+
+for(var i = 0; i < productCards.length; i++)
+{
+	$(productCards[i]).on("mouseenter", function(){
+		if(!(window.clickCurrent % 2))
+		{
+			var productCardH = parseInt($(this).css("height")) + 10;
+			var productCardW = parseInt($(this).css("width")) + 10;
+			var productCardL = parseInt($(this).css("left")) - 5;
+			var productCardT = parseInt($(this).css("top")) - 5;
+			$(this).css("height", productCardH + "px");
+			$(this).css("width", productCardW + "px");
+			$(this).css("left", productCardL + "px");
+			$(this).css("top", productCardT + "px");
+		}
+	});
+
+	$(productCards[i]).on("mouseleave", function(){
+		if(!(window.clickCurrent % 2))
+		{
+			var productCardH = parseInt($(this).css("height")) - 10;
+			var productCardW = parseInt($(this).css("width")) - 10;
+			var productCardL = parseInt($(this).css("left")) + 5;
+			var productCardT = parseInt($(this).css("top")) + 5;
+			$(this).css("height", productCardH + "px");
+			$(this).css("width", productCardW + "px");
+			$(this).css("left", productCardL + "px");
+			$(this).css("top", productCardT + "px");
+		}
+	});
+
+	$(productCards[i]).on("click", function(){
+		window.clickCurrent += 1;
+	});
+
+}
+
+
+//styleSideDescription();
 
 
 
