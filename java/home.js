@@ -33,15 +33,135 @@ var productTextArr = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."];
+var productCardsArr = new Array();
 
 //This is the function to create the different product cards
 var productCardLeft = 10;
+var smallSize = 0;
+var smallHeight = 0;
+
+function heightChangeFunction(wH, productCards)
+{
+	window.productAreaH = wH - window.companyHeaderH - 60 - window.viewButtonH - window.viewButtonB - 20;
+	$(window.productArea).css("height", productAreaH);
+	$(window.productArea).css("bottom", (((wH / 2) - (window.productAreaH / 2)) - 5) + "px");
+	window.productCaroselH = parseInt($(window.productCarosel).css("height"));
+
+	//This will change the sizes of the product cards, and the description in the different cards
+	for(var i = 0; i < window.productNameArr.length; i++)
+	{
+		if(window.smallSize == 0)
+		{
+			//This changes the product card styles
+			$(productCards[i]).css("height", (0.9 * window.productCaroselH) + "px");
+			$(productCards[i]).css("top", (0.05 * window.productCaroselH) + "px");
+			//Product children a.k.a. description area
+			var productChildren = productCards[i].childNodes[1];
+
+			var descriptionAreaH = parseInt($(productChildren).css("height"));
+			var descriptionAreaW = parseInt($(productChildren).css("width"));
+			var inDescH = parseInt($(productChildren.childNodes[0]).css("height"));
+
+			var inDescChildren = productChildren.childNodes[0].childNodes;
+
+			//This include the padding around the on top and on the bottom of the text
+			var productNameH = parseInt($(productChildren.childNodes[0].childNodes[0]).css("height")) + 24 + 5; //This include the padding around the 
+			var productPriceH = parseInt($(productChildren.childNodes[0].childNodes[1]).css("height")) + 5 + 5 + 5; //This also includes the top margin for the text area
+			var productLabelH = parseInt($(productChildren.childNodes[0].childNodes[2]).css("height")) + 5 + 5 + 5; //This include the bottom padding of the text area
+			var productButtonH = parseInt($(productChildren.childNodes[0].childNodes[4]).css("height")) + 5 + 24;
+
+			if(inDescH < descriptionAreaH)
+			{
+				$(productChildren.childNodes[0]).css("top", ((descriptionAreaH / 2) - (inDescH / 2)) + "px");
+			}
+			else if(inDescH >= descriptionAreaH) 
+			{
+				$(productChildren.childNodes[0]).css("height", descriptionAreaH + "px");
+				var remainingTextAreaH = descriptionAreaH - productNameH - productPriceH - productLabelH - productButtonH;
+				var textAreaChildren = productChildren.childNodes[0].childNodes[5].childNodes.length;
+				var productTextH = parseInt($(productChildren.childNodes[0].childNodes[5].childNodes[0]).css("height"));
+				if((productTextH > remainingTextAreaH) && (textAreaChildren != 3))
+				{
+					var shadow = document.createElement("DIV");
+					shadow.className = "overflow-shadow";
+					productChildren.childNodes[0].childNodes[5].appendChild(shadow);
+
+					var readMore = document.createElement("BUTTON");
+					readMore.className = "read-more";
+					readMore.innerText = "Read More";
+
+					productChildren.childNodes[0].childNodes[5].appendChild(readMore);
+					var readMoreW = parseInt($(readMore).css("width"));
+
+					$(readMore).css("left", ((descriptionAreaW / 2) - (readMoreW / 2)) + "px");
+				}
+				if((remainingTextAreaH < 70) && (textAreaChildren == 3))
+				{
+					window.smallSize = 1;
+					$(productCards[i].childNodes[1].childNodes[0]).css("display", "none");
+				}
+				else
+				{
+					$(productChildren.childNodes[0].childNodes[5]).css("height", remainingTextAreaH + "px");
+					var textAreaT = parseInt($(productChildren.childNodes[0].childNodes[5]).css("top"));
+					textAreaT += (remainingTextAreaH + 5 + 5);
+					$(productChildren.childNodes[0].childNodes[2]).css("top", textAreaT + "px");
+					$(productChildren.childNodes[0].childNodes[3]).css("top", (textAreaT - 2) + "px");
+					textAreaT += (productLabelH + 5 + 5 + 5 - 24);
+					$(productChildren.childNodes[0].childNodes[4]).css("top", textAreaT + "px");
+				}
+			}
+		}
+		else
+		{
+			$(productCards[i].childNodes[1].childNodes[0]).css("display", "none");
+			var productChildrenLength = productCards[i].childNodes[1].childNodes.length;
+			
+			if(productChildrenLength == 1)
+			{
+				var whatToDo = document.createElement("DIV");
+				whatToDo.className = "whatToDo";
+
+				productCards[i].childNodes[1].appendChild(whatToDo);
+
+				/*var whatToDoH = parseInt(whatToDo.scrollHeight);
+
+				var productImageH = parseInt($(productCards[i].childNodes[0]).css("height")) + parseInt($(productCards[i].childNodes[0]).css("top"));
+
+				$(productCards[i]).css("height", (productImageH + whatToDoH) + "px");
+
+				$(productCards[i].childNodes[1]).css("height", whatToDoH + "px");
+				*/
+				var toDoText = document.createElement("DIV");
+				toDoText.className = "toDoText";
+				toDoText.innerText = "Hover of the product for more information";
+
+				whatToDo.appendChild(toDoText);
+
+				var whatToDoH = parseInt(whatToDo.scrollHeight);
+				var productImageH = parseInt($(productCards[i].childNodes[0]).css("height")) + parseInt($(productCards[i].childNodes[0]).css("top"));
+				console.log(parseInt($(productCards[i].childNodes[0]).css("height")));
+				console.log(parseInt($(productCards[i].childNodes[0]).css("top")))
+				$(productCards[i]).css("height", (productImageH + whatToDoH) + "px");
+				window.smallHeight = productImageH + whatToDoH;
+				$(productCards[i]).css("top", ((window.productCaroselH / 2) - (smallHeight / 2)) + "px");
+			}
+			$(productCards[i]).css("top", ((window.productCaroselH / 2) - (smallHeight / 2)) + "px");
+		}
+	}
+}
+
+$(window).on("resize", function(){
+	heightChangeFunction(window.innerHeight, productCardsArr);
+});
 
 function createProductCards(item)
 {
 	//This will create the prdouct card
 	var productCard = document.createElement("DIV");
 	productCard.className = "product-card";
+
+	productCardsArr[item] = productCard;
 
 	productCarosel.appendChild(productCard);
 
@@ -237,9 +357,6 @@ function createProductCards(item)
 
 	$(productButton).css("top", inDescH + "px");
 
-	console.log(productCard.childNodes);
-
-
 	inDescH += (5 + productButtonH + 24);
 
 	$(inDesc).css("height", inDescH + "px");
@@ -310,194 +427,6 @@ for(var i = 0; i < productNameArr.length; i++)
 		$(cardDescription).css("left", cardDescriptionL + "px");
 	});
 }
-
-
-
-/*function checkWindowSizeH()
-{
-
-}*/
-
-
-
-/*
-function styleMainDescription()
-{
-	//This is some information about the style for the product description
-	var productDescription = document.getElementsByClassName("product-description");
-	var productDescriptionH = parseInt($(productDescription[0]).css("height"));
-
-	//This will be some of the styles for the productCard
-	var inProductDescription = document.getElementsByClassName("in-product-description");
-	var inProductDescriptionH = parseInt($(inProductDescription[0]).css("height"));
-	var inProductDescriptionW = parseInt($(inProductDescription[0]).css("width"));
-
-	//This will be the same code for the product card creation when it comes to naming the product cards
-	//This part is the product name section
-	var productNames = document.getElementsByClassName("product-name");
-
-	productNames[0].innerText = "Test Title 1";
-
-	var productNamesW = parseInt($(productNames[0]).css("width"));
-	var productNamesH = parseInt($(productNames[0]).css("height"));
-
-	productNames[0].style.top = "1.5em";
-	productNames[0].style.left = ((inProductDescriptionW / 2) - (productNamesW / 2)) + "px";
-
-	var productNamesT = parseInt($(productNames[0]).css("top"));
-
-	//This is the product price section
-	var productPrices = document.getElementsByClassName("product-price")
-
-	productPrices[0].innerText = "$$.$$";
-
-	var productPricesW = parseInt($(productPrices[0]).css("width"));
-	var productPricesH = parseInt($(productPrices[0]).css("height"));
-
-	productPrices[0].style.top = (productNamesT + productNamesH + 5 + 5) + "px";
-	productPrices[0].style.left = ((inProductDescriptionW / 2) - (productPricesW / 2) + "px");
-
-	//This is the product label + the number input
-	var productLabels = document.getElementsByClassName("amount-label"); 
-
-	productLabels[0].innerText = "Select amount here";
-
-	var productLabelsW = parseInt($(productLabels[0]).css("width"));
-	var productLabelsH = parseInt($(productLabels[0]).css("height"));
-
-	var productAmounts = document.getElementsByClassName("product-amount") 
-
-	var productAmountsH = parseInt($(productAmounts[0]).css("height"));
-	var productAmountsW = parseInt($(productAmounts[0]).css("width"));
-
-	var selectionLeft = productLabelsW + productAmountsW + 10;
-
-	productLabels[0].style.top = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5) + "px";
-	productLabels[0].style.left = ((inProductDescriptionW / 2) - (selectionLeft / 2)) + "px";
-
-	var productSelectionL = parseInt($(productLabels[0]).css("left")) + productLabelsW + 10;
-
-	productAmounts[0].style.top = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5 - 2) + "px";
-	productAmounts[0].style.left = productSelectionL + "px";
-
-	//This is the product buying button
-	var productButtons = document.getElementsByClassName("product-button");
-
-	var productButtonsW = parseInt($(productButtons[0]).css("width"));
-	var productButtonsH = parseInt($(productButtons[0]).css("height"));
-
-	productButtons[0].style.top = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5 + productAmountsH + 5 + 5) + "px";
-	productButtons[0].style.left = ((inProductDescriptionW / 2) - (productButtonsW / 2)) + "px";
-
-	inProductDescription[0].style.height = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5 + productAmountsH + 5 + 5 + productButtonsH + productNamesT) + "px";
-
-	var inProductDescriptionH = parseInt($(inProductDescription[0]).css("height"));
-
-	//This is the difference for the description height
-	var differenceForText = productDescriptionH - inProductDescriptionH - 10;
-
-	var productTextH = differenceForText;
-	var productTexts = document.getElementsByClassName("product-text");
-
-	console.log(productTextH);
-
-	productTexts[0].innerText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-
-	var productTextsH = parseInt($(productTexts[0]).css("height"));
-
-	console.log(productTextsH)
-
-	if(productTextsH > productTextH)
-	{
-		productTexts[0].style.height = productTextH + "px";
-		productTexts[0].style.top = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5) + "px";
-		productLabels[0].style.top = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5 + productTextH + 5 + 5) + "px";
-		productAmounts[0].style.top = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5 + productTextH + 5 + 5 - 2) + "px";
-		productButtons[0].style.top = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5 + productTextH + 5 + 5 + productAmountsH + 5 + 5) + "px";
-		inProductDescription[0].style.height = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5 + productTextH + 5 + 5 + productAmountsH + 5 + 5 + productButtonsH + productNamesT) + "px";
-	}
-	else
-	{
-		productTexts[0].style.top = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5) + "px";
-		productLabels[0].style.top = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5 + productTextsH + 5 + 5) + "px";
-		productAmounts[0].style.top = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5 + productTextsH + 5 + 5 - 2) + "px";
-		productButtons[0].style.top = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5 + productTextsH + 5 + 5 + productAmountsH + 5 + 5) + "px";
-		inProductDescription[0].style.height = (productNamesT + productNamesH + 5 + 5 + productPricesH + 5 + 5 + productTextsH + 5 + 5 + productAmountsH + 5 + 5 + productButtonsH + productNamesT) + "px";
-	}
-}
-
-function styleSideDescription()
-{
-	//This is the product cards height
-	var productCards = document.getElementsByClassName("product-card");
-	productCards[0].style.height = "27em";
-	var productCardsH = parseInt($(productCards[0]).css("height"));
-	productCards[0].style.top = ((productCaroselH / 2) - (productCardsH / 2)) + "px";
-
-	//This will be the side description 
-	var sideDescriptions = document.getElementsByClassName("side-description");
-	sideDescriptions[0].style.left = "calc(25em + 20px)";
-	sideDescriptions[0].style.height = productCardsH + "px";
-	sideDescriptions[0].style.width = "25em";
-	sideDescriptions[0].style.top = ((productCaroselH / 2) - (productCardsH / 2)) + "px";
-
-	var buttonSection = document.getElementsByClassName("button-section");
-	var buttonSectionH = parseInt($(buttonSection[0]).css("height"));
-
-	var descriptionScroll = document.getElementsByClassName("description-scroll");
-	var descriptionScrollH = productCardsH - buttonSectionH;
-	$(descriptionScroll[0]).css("height", descriptionScrollH + "px");
-	
-}
-
-styleSideDescription();
-
-var productCards = document.getElementsByClassName("product-card");
-
-var clickCurrent = 0;
-
-for(var i = 0; i < productCards.length; i++)
-{
-	$(productCards[i]).on("mouseenter", function(){
-		if(!(window.clickCurrent % 2))
-		{
-			var productCardH = parseInt($(this).css("height")) + 10;
-			var productCardW = parseInt($(this).css("width")) + 10;
-			var productCardL = parseInt($(this).css("left")) - 5;
-			var productCardT = parseInt($(this).css("top")) - 5;
-			$(this).css("height", productCardH + "px");
-			$(this).css("width", productCardW + "px");
-			$(this).css("left", productCardL + "px");
-			$(this).css("top", productCardT + "px");
-		}
-	});
-
-	$(productCards[i]).on("mouseleave", function(){
-		if(!(window.clickCurrent % 2))
-		{
-			var productCardH = parseInt($(this).css("height")) - 10;
-			var productCardW = parseInt($(this).css("width")) - 10;
-			var productCardL = parseInt($(this).css("left")) + 5;
-			var productCardT = parseInt($(this).css("top")) + 5;
-			$(this).css("height", productCardH + "px");
-			$(this).css("width", productCardW + "px");
-			$(this).css("left", productCardL + "px");
-			$(this).css("top", productCardT + "px");
-		}
-	});
-
-	$(productCards[i]).on("click", function(){
-		window.clickCurrent += 1;
-	});
-
-}*/
-
-
-//styleSideDescription();
-
-
-
-// /alert(productNamesW);
 
 
 
