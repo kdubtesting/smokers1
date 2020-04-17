@@ -1,338 +1,148 @@
-/*--------------------------------------------*/
-//Here are some of the GLOBAL VARIABLES and some
-//of there styles
-/*--------------------------------------------*/
+/*-----------------------------------------*/
+/*----------------------------------------*/
+/*-----------------------------------------*/
+//This will be some global variables and styles
+/*-----------------------------------------*/
+/*-----------------------------------------*/
 
-//This will be the company header + the height of the companyheader
+//These are some global variables for the QUICK STORE TITLE and QUICK STORE DESCRIPTION	
+var quickStoreTitle = document.getElementById("quick-store-title");
+var quickStoreTitleH = parseInt($(quickStoreTitle).css("height")) + 10 + 10;
+var quickStoreDescription = document.getElementById("quick-store-description");
+var quickStoreDescriptionH = parseInt($(quickStoreDescription).css("height")) + 10;
+
+//These are some styles for the VIEW BUTTON as well as some global variables
+var viewButton = document.getElementById("view-store");
+var viewButtonH = parseInt(viewButton.scrollHeight) + 4;
+
+//These are some styles for the OPTIONS BUTTON as well as some global variables
+var optionsButton = document.getElementById("options-button");
+$(optionsButton).css("height", viewButtonH + "px");
+$(optionsButton).css("width", viewButtonH + "px");
+
+var optionsButtonR = parseInt($(optionsButton).css("right"));
+
+//This will be the LEFT and RIGHT BUTTON
+var rightClick = document.getElementById("right-click");
+$(rightClick).css("height", viewButtonH + "px");
+$(rightClick).css("width", viewButtonH + "px");
+$(rightClick).css("right", (optionsButtonR + viewButtonH + 10) + "px");
+
+var leftClick = document.getElementById("left-click");
+$(leftClick).css("height", viewButtonH + "px");
+$(leftClick).css("width", viewButtonH + "px");
+$(leftClick).css("right", (optionsButtonR + viewButtonH + 10 + viewButtonH + 10) + "px");
+
+//These are some styles for the OPTIONS SECTION and the global variable
+var optionsSection = document.getElementById("options-section");
+var optionsSectionH = parseInt($(optionsSection).css("height"));
+
+//This will be the COMPANY HEADER styles and global variables
 var companyHeader = document.getElementById("company-header");
 var companyHeaderH = parseInt($(companyHeader).css("height"));
-
-//This is the menu area height
-var menuAreaH = companyHeaderH + 60;
-
-//This will be some of the styles of the view button
-var viewButton = document.getElementById("view-store-button");
-var viewButtonW = parseInt($(viewButton).css("width"));
-var viewButtonH = parseInt($(viewButton).css("height"));
-var viewButtonB = parseInt($(viewButton).css("bottom"));
-
-//This positions the view button
-$(viewButton).css("left", ((window.innerWidth / 2) - (viewButtonW / 2)) + "px");
-
-//This will style the product area
-var productArea = document.getElementById("product-area");
-
-//The product area height isn't set, so it is found using this
-//window.innerheight - height of the menu - height of the view button - the distance from the bottom for the view button - 20
-var productAreaH = window.innerHeight - menuAreaH - viewButtonH - viewButtonB - 20
-
-//This will set the height and the bottom style for the product area
-$(productArea).css("height", productAreaH + "px");
-$(productArea).css("bottom", (((window.innerHeight / 2) - (productAreaH / 2)) - 5) + "px");
-
-/*This will be some of the styles for the product carosel, the carosel height is established in the styles*/
-var productCarosel = document.getElementById("product-carosel");
-var productCaroselH = parseInt($(productCarosel).css("height"));
-
-//Remove first node, because it is just some text
-productCarosel.removeChild(productCarosel.childNodes[0]);
+var menuH = companyHeaderH + 60;
 
 
-//These are some of the arrays that will be used to fill out the content of the product cards
-var productNameArr = ["Cigarette 1", "Cigar 1", "Bong 1", "Cigarette 2", "Bong 2", "Bong 3"];
-var productPriceArr = ["$$.$$", "$$$.$$", "$$$$.$$", "$.$$", "$$$.$$", "$$$$$.$$"];
-var productTextArr = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit,",
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."];
+//This will be the QUICK STORE SECTION styles and global variables
+var quickStoreSection = document.getElementById("quick-store-section");
+var quickStoreSectionH = window.innerHeight - menuH - 60;
 
-//This array is used to store the product cards that are created
+$(quickStoreSection).css("height", quickStoreSectionH + "px");
+$(quickStoreSection).css("bottom", "40px");
+
+//this will be the styles for the SLIDER AREA as well as global variables
+var sliderArea = document.getElementById("slider-area");
+var sliderH = quickStoreSectionH - optionsSectionH - quickStoreTitleH - quickStoreDescriptionH;
+$(sliderArea).css("height", sliderH + "px");
+
+//this is the TOTAL SLIDER WIDTH variable, it keeps track of how long the interior of the slider
+//area is, especially when items are added.
+//It will initially be 10 pixels because it accounts for the left positioning
+var totalSliderWidth = 10;
+
+//This variable is the actual PRODUCT CARD array, that will hold the unique divs, it is usefull
+//for later styles that need to access the children of this product card
 var productCardsArr = new Array();
-var productDescriptionArr = new Array();
 
-//These values are used for resizing and styling the product cards
-var productCardLeft = 10;
-var productCardMaxHeight = 0; //Initially
-var smallSize = 0;
-var smallHeight = 0;
+//This is the generic max height for the product card,
+//It will never get bigger then the height found when the
+//createMaxProductCard function is called
+var productCardMaxHeight = 0;
 
-/*--------------------------------------------*/
-/*--------------------------------------------*/
-/*--------------------------------------------*/
+//This global variable for the TOP position value
+//for the max product card height, but it should work
+//for all product card height
+var productCardTop = 0;
 
-function topCard(productC, caroselH, productH)
+/*-----------------------------------------*/
+/*----------------------------------------*/
+/*-----------------------------------------*/
+/*-----------------------------------------*/
+/*-----------------------------------------*/
+
+/*------------------------------------------*/
+//This function will create the content in the description area
+/*------------------------------------------*/
+function createDescriptionItems(productDesc)
 {
-	productC.style.top = ((caroselH / 2) - (productH / 2)) + "px";
+	//Create the product name
+	var productName = document.createElement("DIV");
+	productName.className = "product-name";
+	productName.innerText = "Cigarette 1";
+
+	productDesc.appendChild(productName);
 }
 
-function qtySection(productQty, descriptionWidth, bottomSpacing)
+/*------------------------------------------*/
+//This function will create the generic, and largest productCard
+/*------------------------------------------*/
+function createMaxProductCard(productArr, parentArea, parentHeight, item)
 {
-	//This will create the product qty text
-	var productQtyText = document.createElement("LABEL");
-	productQtyText.className = "product-qty-text";
-	productQtyText.innerText = "Qty:";
-	productQtyText.for = "product-amount";
+	//parentArea === sliderArea
+	//parentHeight === sliderH
+	//item === exact item to be created
 
-	productQty.appendChild(productQtyText);
-	//--------------------------------
+	/*----------------------------------------*/
 
-	//This will create the product amount
-	var productAmount = document.createElement("INPUT");
-	productAmount.className = "product-amount";
-	productAmount.value = "1";
-	productAmount.name = "product-amount";
-	productAmount.type = "number";
-	productAmount.min = "1";
-
-	productQty.appendChild(productAmount);
-
-
-	var productAmountH = parseInt(productAmount.scrollHeight);
-	var productQtyWidth = parseInt($(productQtyText).css("width")) + parseInt(productAmount.scrollWidth) + 7;
-	var productQtyWidthHalf = productQtyWidth / 2;
-	var productQtyLeft = (descriptionWidth / 2) - productQtyWidthHalf;
-	//--------------------------------
-
-	//This will create the product plus button
-	var productPlus = document.createElement("DIV");
-	productPlus.className = "product-plus";
-	productPlus.style.width = productAmountH + "px";
-	productPlus.style.height = productAmountH + "px";
-	productPlus.style.left = (productQtyLeft + productQtyWidth - productAmountH) + "px";
-	productPlus.style.bottom = bottomSpacing + "px";
-
-	productQty.appendChild(productPlus);
-	//--------------------------------
-
-	//This will create the product minus button
-	var productMinus = document.createElement("DIV");
-	productMinus.className = "product-plus";
-	productMinus.style.width = productAmountH + "px";
-	productMinus.style.height = productAmountH + "px";
-	productMinus.style.left = (productQtyLeft + productQtyWidth) + "px";
-	productMinus.style.bottom = bottomSpacing + "px";
-
-	productQty.appendChild(productMinus);
-	//--------------------------------
-
-	//This will be some click functionality for the plus and minus button
-	$(productPlus).on("click", function(){
-		productAmount.value = (parseInt(productAmount.value) + 1);
-	});
-
-	$(productMinus).on("click", function(){
-		if(parseInt(productAmount.value) != 1)
-		{
-			productAmount.value = (parseInt(productAmount.value) - 1);
-		}
-	});
-}
-
-function createProductCard(caroselH, item)
-{
-	//Create the product card here
+	//Create the product card
 	var productCard = document.createElement("DIV");
 	productCard.className = "product-card";
 
-	productCarosel.appendChild(productCard);
+	parentArea.appendChild(productCard);
 
-	$(productCard).css("left", productCardLeft + "px");
-
-	var productCardW = parseInt($(productCard).css("width"));
-	productCardLeft += (productCardW + 10);
-	//--------------------------------
-
-	//Create the product image here
+	//Create the product image
 	var productImage = document.createElement("DIV");
 	productImage.className = "product-image";
 
 	productCard.appendChild(productImage);
-	//--------------------------------
 
-	//This will create the product description
+	//These variables from the product image are referenced to create the product card
+	//height desired
+	var productImageH = parseInt($(productImage).css("height"));
+	var productImageT = parseInt($(productImage).css("top"));
+
+	//create the product description
 	var productDescription = document.createElement("DIV");
 	productDescription.className = "product-description";
 
 	productCard.appendChild(productDescription);
-	var productDescriptionW = parseInt($(productDescription).css("width"));
-	productDescriptionArr[item] = productDescription;
-	//--------------------------------
 
-	//This will create the product name
-	var productNames = document.createElement("H3");
-	productNames.className = "product-name";
-	productNames.innerText = productNameArr[item];
-
-	productDescription.appendChild(productNames);
-	//--------------------------------
-
-	//This will create the dividing line
-	var divideLine = document.createElement("DIV");
-	divideLine.className = "divide-line";
-	divideLine.style.width = "8em";
-	divideLine.style.marginLeft = "calc((22em / 2) - (8em / 2))";
-
-	productDescription.appendChild(divideLine);
-	//--------------------------------
-
-	//This will create the product price
-	var productPrices = document.createElement("H4");
-	productPrices.className = "product-price";
-	productPrices.innerText = productPriceArr[item];
-
-	productDescription.appendChild(productPrices);
-	//--------------------------------
-
-	//This will create the product qty section
-	var productQty = document.createElement("DIV");
-	productQty.className = "product-qty";
-
-	productDescription.appendChild(productQty);
-
-	//The function that will fill out the productQty, will be called at the end
-
-	//--------------------------------
-
-	//This will create the product button
-	var productButton = document.createElement("BUTTON");
-	productButton.className = "product-button";
-	productButton.innerText = "Buy";
-
-	productDescription.appendChild(productButton);
-
-	var productButtonB = parseInt($(productButton).css("margin-bottom")) + parseInt(productButton.scrollHeight) + 4 + 10;
-	//--------------------------------
-
-	//This is the quantity content
-	qtySection(productQty, productDescriptionW, productButtonB);
-
-	//This will set the height and top spacing for the product card
-	var productImageH = parseInt($(productImage).css("height")) + 48;
 	var productDescriptionH = parseInt($(productDescription).css("height"));
 
-	productCardMaxHeight = productDescriptionH + productImageH;
+	createDescriptionItems(productDescription);
 
-	productCard.style.height = productCardMaxHeight + "px";
-	topCard(productCard, caroselH, productCardMaxHeight);
+	//This is the styles for the product card, as well as declaring the global variable
+	//for the max height of the product card
+	productCardMaxHeight = productImageH + (2 * productImageT) + productDescriptionH;
+	console.log(productCardMaxHeight);
+	productCardTop = (parentHeight / 2) - (productCardMaxHeight / 2);
+	console.log(productCardTop);
 
-	productCardsArr[item] = productCard;
+	$(productCard).css("height", productCardMaxHeight + "px");
+	$(productCard).css("top", productCardTop + "px");
+
+	//This will save the created div in the 
+	productArr[item] = productCard
 }
 
-$(window).on("load", function(){
-	//This will load the correct styles for larger screens
-	for(var i = 0; i < 6; i++)
-	{
-		createProductCard(productCaroselH, i);
-	}
-
-	//This will be the styles for the medium to small screen sizes
-	productAreaH = window.innerHeight - menuAreaH - viewButtonH - viewButtonB - 20;
-	$(productArea).css("height", productAreaH + "px");
-	productCaroselH = productAreaH - 32;
-
-	if(productCaroselH > (productCardMaxHeight + 10))
-	{
-		for(var i = 0; i < productCardsArr.length; i++)
-		{
-			topCard(productCardsArr[i], productCaroselH, productCardMaxHeight);
-		}
-	}
-	else if(productCaroselH <= (productCardMaxHeight + 10) && (productCaroselH > ((25 * 16) + 10)) && (productCardMaxHeight > (25 * 16)))
-	{
-		var newLeft = 10;
-		for(var i = 0; i < productCardsArr.length; i++)
-		{
-			productCardsArr[i].style.height = "25em";
-			var productCardMedH = parseInt($(productCardsArr[i]).css("height"));
-			//productCardsArr[i].style.top = ((productCaroselH / 2) - ((25 * 16) / 2)) + "px";
-			productCardsArr[i].style.left = newLeft + "px";
-			productCardsArr[i].style.width = "50em";
-			var productCardW = parseInt($(productCardsArr[i]).css("width"));
-			topCard(productCardsArr[i], productCaroselH, productCardMedH);
-			newLeft += (productCardW + 10);
-		}
-	}
-	else if(productCaroselH <= ((25 * 16) + 10))
-	{
-		var newLeft = 10;
-		for(var i = 0; i < productCardsArr.length; i++)
-		{
-			productCardsArr[i].style.height = (0.95 * productCaroselH) + "px";
-			productCardsArr[i].style.width = (0.95 * productCaroselH) + "px";
-			//productCardsArr[i].style.top = (0.025 * productCaroselH) + "px";
-			productCardsArr[i].style.left = newLeft + "px";
-			var productCardSH = parseInt($(productCardsArr[i]).css("height"));
-			topCard(productCardsArr[i], productCaroselH, productCardSH);
-			newLeft += ((0.95 * productCaroselH) + 10)
-		}
-	}
-});
-
-$(window).on("resize", function(){
-	/*-------------------------------------------------*/
-	//This is the horizontal styles
-	/*-------------------------------------------------*/
-
-	var windowW = window.innerWidth;
-	$(viewButton).css("left", ((windowW / 2) - (viewButtonW / 2)) + "px");
-
-	/*-------------------------------------------------*/
-	//This is the vertical styles
-	/*-------------------------------------------------*/
-	productAreaH = window.innerHeight - menuAreaH - viewButtonH - viewButtonB - 20;
-	$(productArea).css("height", productAreaH + "px");
-	productCaroselH = productAreaH - 32;
-
-
-	if(productCaroselH > (productCardMaxHeight + 10))
-	{
-		var newLeft = 10;
-		for(var i = 0; i < productCardsArr.length; i++)
-		{
-			productCardsArr[i].style.width = "25em";
-			productCardsArr[i].style.height = productCardMaxHeight + "px";
-			var productCardW = parseInt($(productCardsArr[i]).css("width"));
-			productCardsArr[i].style.left = newLeft + "px";
-			newLeft += (productCardW + 10);
-			topCard(productCardsArr[i], productCaroselH, productCardMaxHeight);
-		}
-	}
-	else if(productCaroselH <= (productCardMaxHeight + 10) && (productCaroselH > ((25 * 16) + 10)) && (productCardMaxHeight > (25 * 16)))
-	{
-		var newLeft = 10;
-		for(var i = 0; i < productCardsArr.length; i++)
-		{
-			productCardsArr[i].style.height = "25em";
-			var productCardMedH = parseInt($(productCardsArr[i]).css("height"));
-			//productCardsArr[i].style.top = ((productCaroselH / 2) - ((25 * 16) / 2)) + "px";
-			productCardsArr[i].style.left = newLeft + "px";
-			productCardsArr[i].style.width = "50em";
-			var productCardW = parseInt($(productCardsArr[i]).css("width"));
-			topCard(productCardsArr[i], productCaroselH, productCardMedH);
-			newLeft += (productCardW + 10);
-		}
-	}
-	else if(productCaroselH <= ((25 * 16) + 10))
-	{
-		var newLeft = 10;
-		for(var i = 0; i < productCardsArr.length; i++)
-		{
-			productCardsArr[i].style.height = (0.95 * productCaroselH) + "px";
-			productCardsArr[i].style.width = (0.95 * productCaroselH) + "px";
-			//productCardsArr[i].style.top = (0.025 * productCaroselH) + "px";
-			productCardsArr[i].style.left = newLeft + "px";
-			var productCardSH = parseInt($(productCardsArr[i]).css("height"));
-			topCard(productCardsArr[i], productCaroselH, productCardSH);
-			newLeft += ((0.95 * productCaroselH) + 10)
-		}
-	}
-
-
-	/*for(var i = 0; i < productCardsArr.length; i++)
-	{
-		topCard(productCardsArr[i], productCaroselH, productCardMaxHeight);
-	}*/
-});
-
+createMaxProductCard(productCardsArr, sliderArea, sliderH, 0);
