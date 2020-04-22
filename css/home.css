@@ -1,3 +1,23 @@
+#outer-section
+{
+	width:100vw;
+	height:100vh;
+	overflow-x:hidden;
+	overflow-y:scroll;
+}
+
+#outer-section::-webkit-scrollbar
+{
+	display:none;
+}
+
+#relative-section
+{
+	width:100vw;
+	height:auto;
+	position:relative;
+}
+
 #quick-store-section
 {
 	width:95%;
@@ -44,8 +64,8 @@ product cards*/
 {
 	width:auto;
 	height:100%;
-	box-shadow:inset 0 0 0 1px #000;
 	position:relative;
+	overflow:hidden;
 }
 
 .product-card
@@ -68,7 +88,6 @@ product cards*/
 	width:22em;
 	height:22em;
 	position:absolute;
-	box-shadow:inset 0 0 0 1px #000;
 	left:1.5em;
 	top:1.5em;
 	background-color:#fff;
@@ -83,7 +102,6 @@ product cards*/
 	position:absolute;
 	bottom:1.5em;
 	left:1.5em;
-	box-shadow:inset 0 0 0 1px #000;
 }
 
 /*This is the interior of the product description*/
