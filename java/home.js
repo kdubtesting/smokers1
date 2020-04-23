@@ -238,6 +238,7 @@ function clickButtons(inSlider, inSliderW, quickStoreW, leftButton, rightButton,
 			{
 				console.log("This ran");
 				slideL = 0;
+				movedToEnd = false;
 			}
 			else
 			{
@@ -247,6 +248,10 @@ function clickButtons(inSlider, inSliderW, quickStoreW, leftButton, rightButton,
 			$(inSlider).css("left", slideL + "px");
 			clickCount--;
 			$(inSlider.childNodes[clickCount]).css("box-shadow", "0 0 3px rgba(0,0,0,0.2)");
+			if(movedToEnd == true)
+			{
+				$(inSlider.childNodes[clickCount - 1]).css("box-shadow", "0 0 3px rgba(0,0,0,0.2)");
+			}
 			if(slideL < 0)
 			{
 				$(rightButton).css("border", "2px solid #000000");
@@ -266,8 +271,7 @@ function clickButtons(inSlider, inSliderW, quickStoreW, leftButton, rightButton,
 		e.preventDefault();
 		if(clickCount < howManyClicks)
 		{
-			movedToEnd = false;
-			if((howManyClicks - clickCount) == 1)
+			if((howManyClicks - clickCount) == 1 && movedToEnd == false)
 			{
 				slideL -= remainder;
 			}
@@ -275,8 +279,9 @@ function clickButtons(inSlider, inSliderW, quickStoreW, leftButton, rightButton,
 			{
 				slideL -= moveLeftRight;
 			}
+
 			$(inSlider).css("left", slideL + "px");
-			$(inSlider.childNodes[clickCount]).css("box-shadow", "none");
+			
 			if((-1 * slideL) > 0)
 			{
 				$(leftButton).css("border", "2px solid #000000");
@@ -290,6 +295,10 @@ function clickButtons(inSlider, inSliderW, quickStoreW, leftButton, rightButton,
 				$(rightButton.childNodes[1]).css("color", "#E9E9E9");
 				movedToEnd = true;
 				console.log(movedToEnd)
+			}
+			else
+			{
+				$(inSlider.childNodes[clickCount-1]).css("box-shadow", "none");
 			}
 			console.log(clickCount);
 		}
