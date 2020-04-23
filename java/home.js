@@ -27,8 +27,8 @@ var inSlider = null;
 //This will be for the OPTIONS AREA
 var optionsArea = document.getElementById("options-section");
 var viewStore = document.getElementById("view-store");
-var leftButton = document.getElementById("left-button");
-var rightButton = document.getElementById("right-button");
+var leftButton = document.getElementById("left-click");
+var rightButton = document.getElementById("right-click");
 var optionsButton = document.getElementById("options-button");
 
 /*---------------------------*/
@@ -41,6 +41,10 @@ var productMaxW = 0;
 
 //This will be associated with the min width because it is loaded when that is created
 var productMaxH = 0
+
+//These will be some arrays that will fill out the product cards will info
+var productName = new Array();
+var productPrice = new Array();
 
 /*---------------------------*/
 //These global variables are for the vertical resizing of the screen
@@ -87,7 +91,7 @@ function qtySection(productQty)
 	//Create the QTY MINUS
 }
 
-function createDesc(productDesc)
+function createDesc(productDesc, item)
 {
 	/*---------------------------*/
 	//This will create the PRODUCT DESCRIPTION items, and will style it with generic styles, 
@@ -101,7 +105,7 @@ function createDesc(productDesc)
 	//Create the PRODUCT NAME
 	var productName = document.createElement("H3");
 	productName.className = "product-name";
-	productName.innerText = "Cigarette 1";
+	productName.innerText = window.productName[item];
 
 	productDesc.appendChild(productName);
 	productDesc.appendChild(br);
@@ -111,15 +115,13 @@ function createDesc(productDesc)
 		window.productMinW = parseInt($(productName).css("width"));
 	}
 
-	
-
 	/*---------------------------*/
 	//Create the PRODUCT PRICE
 	br = document.createElement("BR");
 
 	var productPrice = document.createElement("H4");
 	productPrice.className = "product-price";
-	productPrice.innerText = "$$.$$";
+	productPrice.innerText = window.productPrice[item];
 
 	productDesc.appendChild(productPrice);
 	productDesc.appendChild(br);
@@ -161,7 +163,7 @@ function createDesc(productDesc)
 	}
 }
 
-function createProductCard(inSlider)
+function createProductCard(inSlider, item)
 {
 	/*---------------------------*/
 	//This will create the PRODUCT CARD, and will style it with generic styles, 
@@ -191,7 +193,7 @@ function createProductCard(inSlider)
 
 	productCard.appendChild(productDesc);
 
-	createDesc(productDesc);
+	createDesc(productDesc, item);
 
 	var productDescH = parseInt($(productDesc).css("height"));
 
@@ -202,11 +204,108 @@ function createProductCard(inSlider)
 	window.productMaxW = productImageW;
 }
 
+function clickButtons(inSlider, inSliderW, quickStoreW, leftButton, rightButton, productCardW)
+{
+	var differenceInClick = inSliderW - quickStoreW;
+	var moveLeftRight = 13 + productCardW;
+	var howManyClicks = Math.floor(differenceInClick / moveLeftRight)
+	var remainder = differenceInClick % moveLeftRight;
+	if(remainder != 0)
+	{
+		howManyClicks += 1;
+	}
+
+	//These will be some variables to start moving the inslider area
+	var inSliderL = parseInt($(inSlider).css("left"));
+
+	if(inSliderL == 0)
+	{
+		$(leftButton).css("border", "2px solid #E9E9E9");
+		$(leftButton.childNodes[1]).css("color", "#E9E9E9");
+	}
+
+	var clickCount = 0;
+	var slideL = 0;
+	var movedToEnd = false;
+
+	$(leftButton).click(function(e)
+	{
+		e.preventDefault();
+		if(clickCount > 0)
+		{
+			console.log(movedToEnd);
+			if(clickCount == 1 && movedToEnd == true)
+			{
+				console.log("This ran");
+				slideL = 0;
+			}
+			else
+			{
+				console.log("this ran too");
+				slideL += moveLeftRight;
+			}
+			$(inSlider).css("left", slideL + "px");
+			clickCount--;
+			$(inSlider.childNodes[clickCount]).css("box-shadow", "0 0 3px rgba(0,0,0,0.2)");
+			if(slideL < 0)
+			{
+				$(rightButton).css("border", "2px solid #000000");
+				$(rightButton.childNodes[1]).css("color", "#000000");
+			}
+			if(clickCount == 0)
+			{
+				$(leftButton).css("border", "2px solid #E9E9E9");
+				$(leftButton.childNodes[1]).css("color", "#E9E9E9");
+			}
+			console.log(clickCount);
+		}
+	});
+
+	$(rightButton).click(function(e)
+	{
+		e.preventDefault();
+		if(clickCount < howManyClicks)
+		{
+			movedToEnd = false;
+			if((howManyClicks - clickCount) == 1)
+			{
+				slideL -= remainder;
+			}
+			else
+			{
+				slideL -= moveLeftRight;
+			}
+			$(inSlider).css("left", slideL + "px");
+			$(inSlider.childNodes[clickCount]).css("box-shadow", "none");
+			if((-1 * slideL) > 0)
+			{
+				$(leftButton).css("border", "2px solid #000000");
+				$(leftButton.childNodes[1]).css("color", "#000000");
+			}
+
+			clickCount++;
+			if(clickCount == howManyClicks)
+			{
+				$(rightButton).css("border", "2px solid #E9E9E9");
+				$(rightButton.childNodes[1]).css("color", "#E9E9E9");
+				movedToEnd = true;
+				console.log(movedToEnd)
+			}
+			console.log(clickCount);
+		}
+	});
+
+
+}
+
 //This will load the document
 $(window).on("load", function(){
 	/*---------------------------*/
 	//Set the global variable for previous size
 	var previousSize = window.innerHeight;
+
+	productName = ["Cigarette 1", "Cigar 1", "Bong 2", "Bong 1", "Cigarette 2", "Bong 3"];
+	productPrice = ["$.$$", "$$$.$$", "$$$$.$$", "$$$.$$", "$$.$$", "$$$$.$$"];
 
 	/*---------------------------*/
 	//This creates the IN SLIDER AREA
@@ -215,7 +314,20 @@ $(window).on("load", function(){
 
 	sliderArea.appendChild(inSlider);
 
-	createProductCard(inSlider);
+	var inSliderW = 13;
+
+	for(var i = 0; i < 6; i++)
+	{
+		createProductCard(inSlider, i);
+		$(inSlider.childNodes[i]).css("left", inSliderW + "px");
+		var productW = parseInt($(inSlider.childNodes[i]).css("width"));
+		inSliderW += (productW + 13);
+	}
+
+	/*var productW = parseInt($(inSlider.childNodes[1]).css("width"));
+	inSliderW += (productW + 13);*/
+
+	$(inSlider).css("width", inSliderW + "px");
 
 	productMinW += 48;
 
@@ -262,25 +374,38 @@ $(window).on("load", function(){
 
 	while(rightSize)
 	{
+		//reset insliderW here
+		inSliderW = 13;
 		if(productImgW > productMinW)
 		{
 			if(productH > sliderH)
 			{	
 				productImgW -= 48;
 
-				//resize the product image as it is shrinking
-				$(inSlider.childNodes[0].childNodes[0]).css("width", productImgW + "px");
-				$(inSlider.childNodes[0].childNodes[0]).css("height", productImgW + "px");
+				for(var i = 0; i < inSlider.childNodes.length; i++)
+				{
+					//resize the product image as it is shrinking
+					$(inSlider.childNodes[i].childNodes[0]).css("width", productImgW + "px");
+					$(inSlider.childNodes[i].childNodes[0]).css("height", productImgW + "px");
 
-				//resize the product description
-				$(inSlider.childNodes[0].childNodes[1]).css("width", productImgW + "px");
+					//resize the product description
+					$(inSlider.childNodes[i].childNodes[1]).css("width", productImgW + "px");
 
-				var productDescH = parseInt($(inSlider.childNodes[0].childNodes[1]).css("height"));
+					var productDescH = parseInt($(inSlider.childNodes[0].childNodes[1]).css("height"));
 
-				productH = productImgW + 48 + productDescH;
+					productH = productImgW + 48 + productDescH;
 
-				$(inSlider.childNodes[0]).css("width", (productImgW + 48) + "px");
-				$(inSlider.childNodes[0]).css("height", productH + "px");
+					$(inSlider.childNodes[i]).css("width", (productImgW + 48) + "px");
+					$(inSlider.childNodes[i]).css("height", productH + "px");
+					$(inSlider.childNodes[i]).css("left", inSliderW + "px");
+					inSliderW += (productImgW + 48 + 13);
+				}
+
+				/*var productW = parseInt($(inSlider.childNodes[0]).css("width"));
+
+				inSliderW += (productW + 13);*/
+
+				$(inSlider).css("width", inSliderW + "px");
 			}
 			else
 			{
@@ -289,24 +414,36 @@ $(window).on("load", function(){
 		}
 		else
 		{
-			//This will be the minimum size that the screen can be vertically 
-			//before you need to start scrolling
-			var productImg = inSlider.childNodes[0].childNodes[0];
-			var productDesc = inSlider.childNodes[0].childNodes[1];
-			var productDescH = parseInt($(inSlider.childNodes[0].childNodes[1]).css("height"));
+			for(var i = 0; i < inSlider.childNodes.length; i++)
+			{
+				//This will be the minimum size that the screen can be vertically 
+				//before you need to start scrolling
+				var productImg = inSlider.childNodes[i].childNodes[0];
+				var productDesc = inSlider.childNodes[i].childNodes[1];
+				var productDescH = parseInt($(inSlider.childNodes[0].childNodes[1]).css("height"));
 
-			$(productImg).css("width", productMinW + "px");
-			$(productImg).css("height", productMinW + "px");
-			$(productDesc).css("width", productMinW + "px");
+				$(productImg).css("width", productMinW + "px");
+				$(productImg).css("height", productMinW + "px");
+				$(productDesc).css("width", productMinW + "px");
 
-			var smallProductH = productMinW + 48 + productDescH;
-			var smallProductW = productMinW + 48;
+				var smallProductH = productMinW + 48 + productDescH;
+				var smallProductW = productMinW + 48;
 
-			//set the productH
-			productH = smallProductH;
+				//set the productH
+				productH = smallProductH;
 
-			$(inSlider.childNodes[0]).css("width", smallProductW + "px");
-			$(inSlider.childNodes[0]).css("height", smallProductH + "px");
+				$(inSlider.childNodes[i]).css("width", smallProductW + "px");
+				$(inSlider.childNodes[i]).css("height", smallProductH + "px");
+
+				$(inSlider.childNodes[i]).css("left", inSliderW + "px");
+				inSliderW += (smallProductW + 13);
+			}
+
+			/*var productW = parseInt($(inSlider.childNodes[0]).css("width"));
+
+			inSliderW += (productW + 13);*/
+
+			$(inSlider).css("width", inSliderW + "px");
 
 			//Change the height of the slider area
 			var newSliderH = smallProductH + 13;
@@ -330,12 +467,46 @@ $(window).on("load", function(){
 		}
 	}
 
-	$(inSlider.childNodes[0]).css("top", ((sliderH / 2) - (productH / 2)) + "px");
+	for(var i = 0; i < 6; i++)
+	{
+		$(inSlider.childNodes[i]).css("top", ((sliderH / 2) - (productH / 2)) + "px");
+	}
+
+	/*---------------------------*/
+	//Style the options area here
+	var viewStoreH = parseInt($(viewStore).css("height"));
+
+	//Set the left, right, and options button sizes here
+	$(leftButton).css("height", (viewStoreH-4) + "px");
+	$(leftButton).css("width", (viewStoreH-4) + "px");
+	$(leftButton).css("top", "10px");
+	$(leftButton).css("right", (13 + 13 + 13 + viewStoreH + viewStoreH) + "px");
+
+	$(rightButton).css("height", (viewStoreH-4) + "px");
+	$(rightButton).css("width", (viewStoreH-4) + "px");
+	$(rightButton).css("top", "10px");
+	$(rightButton).css("right", (13 + 13 + viewStoreH) + "px");
+
+	$(optionsButton).css("height", (viewStoreH-4) + "px");
+	$(optionsButton).css("width", (viewStoreH-4) + "px");
+	$(optionsButton).css("top", "10px");
+	$(optionsButton).css("right", "13px");
+
+	inSliderW = parseInt($(inSlider).css("width"));
+	var quickStoreW = parseInt($(quickStoreSection).css("width"));
+	var productCardW = parseInt($(inSlider.childNodes[0]).css("width"));
+
+	clickButtons(inSlider, inSliderW, quickStoreW, leftButton, rightButton, productCardW);
+
 });
 
 
 //This will be some screen resizing
 $(window).on("resize", function(){
+
+	//There is a slight problem when the screen is immediately snapped, it doesn't resize all the way because
+	//This function stops working. I'm thinking to call a seperate function just to check and make sure
+	//that the size is correct before continuing, after doing some of the horizontal resizing
 
 	//Some variables will be declared here
 	var checkProductH = parseInt($(inSlider.childNodes[0]).css("height"));
@@ -367,7 +538,10 @@ $(window).on("resize", function(){
 			var newSliderH = newQuickStoreH - quickStoreTitleH - quickStoreDescH - optionsAreaH;
 			$(sliderArea).css("height", newSliderH + "px");
 
-			$(inSlider.childNodes[0]).css("top", ((newSliderH / 2) - (checkProductH / 2)) + "px");
+			for(var i = 0; i < inSlider.childNodes.length; i++)
+			{
+				$(inSlider.childNodes[i]).css("top", ((newSliderH / 2) - (checkProductH / 2)) + "px");
+			}
 
 			if(growingScreenV == true)
 			{
@@ -375,44 +549,53 @@ $(window).on("resize", function(){
 
 				if(newSliderH > (checkProductH + 48))
 				{
-
+					var inSliderW = 13;
 					if(productImgW > productMaxW)
 					{
-						$(inSlider.childNodes[0].childNodes[0]).css("width", productMaxW + "px");
-						$(inSlider.childNodes[0].childNodes[0]).css("height", productMaxW + "px");
+						for(var i = 0; i < inSlider.childNodes.length; i++)
+						{
+							$(inSlider.childNodes[i].childNodes[0]).css("width", productMaxW + "px");
+							$(inSlider.childNodes[i].childNodes[0]).css("height", productMaxW + "px");
 
-						var productDescH = parseInt($(inSlider.childNodes[0].childNodes[1]).css("height"));
+							var productDescH = parseInt($(inSlider.childNodes[i].childNodes[1]).css("height"));
 
-						$(inSlider.childNodes[0].childNodes[1]).css("width", productMaxW + "px");
+							$(inSlider.childNodes[i].childNodes[1]).css("width", productMaxW + "px");
 
-						checkProductH = productMaxW + 48 + productDescH;
-						var newProductW = productMaxW + 48;
+							checkProductH = productMaxW + 48 + productDescH;
+							var newProductW = productMaxW + 48;
 
-						$(inSlider.childNodes[0]).css("height", checkProductH + "px");
-						$(inSlider.childNodes[0]).css("width", newProductW + "px");
+							$(inSlider.childNodes[i]).css("height", checkProductH + "px");
+							$(inSlider.childNodes[i]).css("width", newProductW + "px");
+							$(inSlider.childNodes[i]).css("left", inSliderW + "px");
+							inSliderW += (newProductW + 13);
+						}
 
+						$(inSlider).css("width", inSliderW + "px");
 						growingScreenV = false;
 					}
 					else
 					{
-						$(inSlider.childNodes[0].childNodes[0]).css("width", productImgW + "px");
-						$(inSlider.childNodes[0].childNodes[0]).css("height", productImgW + "px");
+						for(var i = 0; i < inSlider.childNodes.length; i++)
+						{
+							$(inSlider.childNodes[i].childNodes[0]).css("width", productImgW + "px");
+							$(inSlider.childNodes[i].childNodes[0]).css("height", productImgW + "px");
 
-						var productDescH = parseInt($(inSlider.childNodes[0].childNodes[1]).css("height"));
+							var productDescH = parseInt($(inSlider.childNodes[i].childNodes[1]).css("height"));
 
-						$(inSlider.childNodes[0].childNodes[1]).css("width", productImgW + "px");
+							$(inSlider.childNodes[i].childNodes[1]).css("width", productImgW + "px");
 
-						checkProductH = productImgW + 48 + productDescH;
-						var newProductW = productImgW + 48;
+							checkProductH = productImgW + 48 + productDescH;
+							var newProductW = productImgW + 48;
 
-						$(inSlider.childNodes[0]).css("height", checkProductH + "px");
-						$(inSlider.childNodes[0]).css("width", newProductW + "px");
-
+							$(inSlider.childNodes[i]).css("height", checkProductH + "px");
+							$(inSlider.childNodes[i]).css("width", newProductW + "px");
+							$(inSlider.childNodes[i]).css("left", inSliderW + "px");
+							inSliderW += (newProductW + 13);
+						}
+						$(inSlider).css("width", inSliderW + "px");
 					}
-				}
-				
+				}			
 			}
-
 		}
 		
 	}
@@ -426,7 +609,7 @@ $(window).on("resize", function(){
 
 
 		if(shrinkingScreenV == true)
-		{
+		{ 
 			//Set the relative's section's height as it resizes down
 			var newRelativeH = window.innerHeight - menuAreaH;
 			$(relativeArea).css("height", newRelativeH + "px");
@@ -441,23 +624,30 @@ $(window).on("resize", function(){
 
 			if(newSliderH <= checkProductH)
 			{
+				var inSliderW = 13;
 				var productImgW = parseInt($(inSlider.childNodes[0].childNodes[0]).css("width")) - 48;
 
 				if(productImgW <= productMinW)
 				{
-					$(inSlider.childNodes[0].childNodes[0]).css("width", productMinW + "px");
-					$(inSlider.childNodes[0].childNodes[0]).css("height", productMinW + "px");
+					for(var i = 0; i < inSlider.childNodes.length; i++)
+					{
+						$(inSlider.childNodes[i].childNodes[0]).css("width", productMinW + "px");
+						$(inSlider.childNodes[i].childNodes[0]).css("height", productMinW + "px");
 
-					var productDescH = parseInt($(inSlider.childNodes[0].childNodes[1]).css("height"));
+						var productDescH = parseInt($(inSlider.childNodes[i].childNodes[1]).css("height"));
 
-					$(inSlider.childNodes[0].childNodes[1]).css("width", productMinW + "px");
+						$(inSlider.childNodes[i].childNodes[1]).css("width", productMinW + "px");
 
-					checkProductH = productMinW + 48 + productDescH;
-					var newProductW = productMinW + 48;
+						checkProductH = productMinW + 48 + productDescH;
+						var newProductW = productMinW + 48;
 
-					$(inSlider.childNodes[0]).css("height", checkProductH + "px");
-					$(inSlider.childNodes[0]).css("width", newProductW + "px");
+						$(inSlider.childNodes[i]).css("height", checkProductH + "px");
+						$(inSlider.childNodes[i]).css("width", newProductW + "px");
+						$(inSlider.childNodes[i]).css("left", inSliderW + "px");
+						inSliderW += (newProductW + 13);
+					}
 
+					$(inSlider).css("width", inSliderW + "px");
 
 					//This will begin to set the rest of the area to the correct size
 					newSliderH = checkProductH + 13;
@@ -469,30 +659,37 @@ $(window).on("resize", function(){
 
 					//This will set the new relative area height
 					var newRelativeH = newQuickStoreH + 96;
-
 					$(relativeArea).css("height", newRelativeH + "px");
 
 					shrinkingScreenV = false;
 				}
 				else
 				{
-					$(inSlider.childNodes[0].childNodes[0]).css("width", productImgW + "px");
-					$(inSlider.childNodes[0].childNodes[0]).css("height", productImgW + "px");
+					for(var i = 0; i < inSlider.childNodes.length; i++)
+					{
+						$(inSlider.childNodes[i].childNodes[0]).css("width", productImgW + "px");
+						$(inSlider.childNodes[i].childNodes[0]).css("height", productImgW + "px");
 
-					var productDescH = parseInt($(inSlider.childNodes[0].childNodes[1]).css("height"));
+						var productDescH = parseInt($(inSlider.childNodes[i].childNodes[1]).css("height"));
 
-					$(inSlider.childNodes[0].childNodes[1]).css("width", productImgW + "px");
+						$(inSlider.childNodes[i].childNodes[1]).css("width", productImgW + "px");
 
-					checkProductH = productImgW + 48 + productDescH;
-					var newProductW = productImgW + 48;
+						checkProductH = productImgW + 48 + productDescH;
+						var newProductW = productImgW + 48;
 
-					$(inSlider.childNodes[0]).css("height", checkProductH + "px");
-					$(inSlider.childNodes[0]).css("width", newProductW + "px");
+						$(inSlider.childNodes[i]).css("height", checkProductH + "px");
+						$(inSlider.childNodes[i]).css("width", newProductW + "px");
+						$(inSlider.childNodes[i]).css("left", inSliderW + "px");
+						inSliderW += (newProductW + 13);
+					}
+					$(inSlider).css("width", inSliderW + "px");
 				}
 
 			}
 
-			$(inSlider.childNodes[0]).css("top", ((newSliderH / 2) - (checkProductH / 2)) + "px");
+			for(var i = 0; i < inSlider.childNodes.length; i++){
+				$(inSlider.childNodes[i]).css("top", ((newSliderH / 2) - (checkProductH / 2)) + "px");
+			}
 
 		}
 

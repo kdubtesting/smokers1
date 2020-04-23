@@ -226,8 +226,7 @@ product cards*/
 	font-size:16px;
 	font-weight:lighter;
 	padding:5px 10px 2.5px 10px;
-	border:2px solid #fff;
-	box-shadow:0 0 3px rgba(0,0,0,0.3);
+	border:2px solid #000;
 	border-radius:5px;
 	outline:none;
 	margin-left:10px;
@@ -237,7 +236,8 @@ product cards*/
 
 #view-store:hover
 {
-	box-shadow:0 0 5px rgba(0,0,0,0.8);
+	background-color:#000;
+	color:#fff;
 }
 
 #options-button
@@ -247,7 +247,7 @@ product cards*/
 	width:10px;
 	top:10px;
 	right:10px;
-	box-shadow:0 0 3px rgba(0,0,0,0.3);
+	border:2px solid #000;
 	border-radius:5px;
 }
 
@@ -258,7 +258,7 @@ product cards*/
 	top:10px;
 	right:0px;
 	border-radius:5px;
-	box-shadow:0 0 3px rgba(0,0,0,0.3);
+	border:2px solid #000;
 	overflow:hidden;
 	text-align:center;
 }
@@ -274,7 +274,7 @@ product cards*/
 #right-sign
 {
 	cursor:default;
-	margin-top:6.75px;
+	margin-top:4.35px;
 }
 
 
