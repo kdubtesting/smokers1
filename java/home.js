@@ -403,8 +403,10 @@ $(window).on("load", function(){
 
 			$(quickStoreSection).css("height", newQuickStoreH + "px");
 
+			$(quickStoreSection).css("top", "24px");
+
 			//Change the height of the relative section
-			var newRelativeH = newQuickStoreH + 96; 
+			var newRelativeH = newQuickStoreH + 48; 
 
 			$(relativeArea).css("height", newRelativeH + "px");
 
