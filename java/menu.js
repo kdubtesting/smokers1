@@ -21,6 +21,7 @@ $(companyHeader).css("top", ((menuAreaH / 2) - (companyHeaderH / 2)) + "px");
 //------------------------
 //This is where the menu items area
 var linksArea = document.getElementById("links-area");
+var linksAreaChild = linksArea.childNodes.length;
 
 //Schedule section
 var scheduleSection = document.getElementById("schedule-section");
@@ -65,6 +66,7 @@ var windowW = 0;
 //This is the function for the menu on everything larger then a tablet
 function largeMenu()
 {
+	console.log(searchSection)
 	//Do this so that so the toggle is not present
 	$(menuOpenClose).css("display", "none");
 
@@ -99,21 +101,24 @@ function largeMenu()
 	linksAreaW += scheduleSectionW;
 
 	//This will set the position styles for the search section
-	$(searchSection).css("height", menuAreaH + "px");
-	$(searchSection).css("width", "calc(15em + 1.45em + 10px + 60px)");
-	$(searchSection).css("top",  "0px");
-	$(searchSection).css("left", scheduleSectionW + "px");
+	if(searchSection != null)
+	{
+		$(searchSection).css("height", menuAreaH + "px");
+		$(searchSection).css("width", "calc(15em + 1.45em + 10px + 60px)");
+		$(searchSection).css("top",  "0px");
+		$(searchSection).css("left", scheduleSectionW + "px");
 
-	//This will set the position styles for the search bar
-	$(menuSearch).css("top", ((menuAreaH / 2) - (menuSearchH / 2)) + "px");
+		//This will set the position styles for the search bar
+		$(menuSearch).css("top", ((menuAreaH / 2) - (menuSearchH / 2)) + "px");
 
-	//This will set the position styles for the search button
-	$(menuButton).css("top", ((menuAreaH / 2) - (menuButtonH / 2)) + "px");
-	$(menuButton).css("right", "30px");
+		//This will set the position styles for the search button
+		$(menuButton).css("top", ((menuAreaH / 2) - (menuButtonH / 2)) + "px");
+		$(menuButton).css("right", "30px");
 
-	//Once that is done, add the length of the search section to the total width
-	//This will also be used to position the menu opts to the left of this object
-	linksAreaW += searchSectionW;
+		//Once that is done, add the length of the search section to the total width
+		//This will also be used to position the menu opts to the left of this object
+		linksAreaW += searchSectionW;
+	}
 
 	//Also, set the height of the link area
 	$(linksArea).css("height", menuAreaH + "px");

@@ -439,12 +439,6 @@ $(window).on("load", function(){
 	$(optionsButton).css("top", "10px");
 	$(optionsButton).css("right", "13px");
 
-	/*inSliderW = parseInt($(inSlider).css("width"));
-	var quickStoreW = parseInt($(quickStoreSection).css("width"));
-	var productCardW = parseInt($(inSlider.childNodes[0]).css("width"));
-
-	clickButtons(inSlider, inSliderW, quickStoreW, leftButton, rightButton, productCardW);
-	*/
 });
 
 
