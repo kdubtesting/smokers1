@@ -166,6 +166,40 @@ function createDesc(productDesc, item)
 	}
 }
 
+function createProductImg(productImg)
+{
+	//Create the image count icon
+	var productImgIcon = document.createElement("DIV");
+	productImgIcon.className = "product-img-icon"
+
+	productImg.appendChild(productImgIcon);
+
+	//create the image icon text;
+	var productIconText = document.createElement("DIV");
+	productIconText.className = "icon-text";
+	productIconText.innerText = "1/10";
+
+	productImgIcon.appendChild(productIconText);
+
+	//left and right movement for imaages
+	var leftMove = document.createElement("DIV");
+	leftMove.className = "left-move";
+
+	productImg.appendChild(leftMove);
+
+	$(leftMove).css("top", ((parseInt($(productImg).css("height")) / 2) - (parseInt($(leftMove).css("height")) / 1)) + "px");
+	$(leftMove).css("left", "10px");
+
+	var rightMove = document.createElement("DIV");
+	rightMove.className = "right-move";
+
+	productImg.appendChild(rightMove);
+
+	$(rightMove).css("top", ((parseInt($(productImg).css("height")) / 2) - (parseInt($(leftMove).css("height")) / 1)) + "px");
+	$(rightMove).css("right", "10px");
+
+}
+
 function createProductCard(inSlider, item)
 {
 	/*---------------------------*/
@@ -186,6 +220,8 @@ function createProductCard(inSlider, item)
 	productImage.className = "product-image";
 
 	productCard.appendChild(productImage);
+
+	createProductImg(productImage);
 
 	var productImageW = parseInt($(productImage).css("width"));
 
