@@ -22,6 +22,12 @@ $(companyHeader).css("top", ((menuAreaH / 2) - (companyHeaderH / 2)) + "px");
 //This is where the menu items area
 var linksArea = document.getElementById("links-area");
 
+//Schedule section
+var scheduleSection = document.getElementById("schedule-section");
+var openCloseTime = document.getElementById("open-close");
+var timeDis = document.getElementById("time-display");
+var chevron = document.getElementById("chevron");
+
 //Search section
 var searchSection = document.getElementById("search-section");
 var searchSectionW = parseInt($(searchSection).css("width"));
@@ -66,10 +72,37 @@ function largeMenu()
 	//never change for the site LOCAL VARIABLE
 	var linksAreaW = 0;
 	
+	$(scheduleSection).css("width", "12em");
+	$(scheduleSection).css("height", menuAreaH + "px");
+	var scheduleSectionW = parseInt($(scheduleSection).css("width"));
+
+	$(openCloseTime).css("margin-left", "15px");
+	var openCloseTimeH = parseInt($(openCloseTime).css("height"));
+	var openCloseTimeW = parseInt($(openCloseTime).css("width"));
+	$(openCloseTime).css("margin-top", ((menuAreaH / 2) - (openCloseTimeH / 2)) + "px");
+
+	$(timeDis).css("top", ((menuAreaH / 2) - (openCloseTimeH / 2)) + "px");
+	$(timeDis).css("left", (openCloseTimeW + 20) + "px");
+
+	var timeDisW = parseInt($(timeDis).css("width"));
+
+	var chevronH = parseInt($(chevron).css("height"));
+	var chevronW = parseInt($(chevron).css("width"));
+
+	$(chevron).css("left", (openCloseTimeW + 20 + timeDisW + 5) + "px");
+	$(chevron).css("top", ((menuAreaH / 2) - (chevronH / 2)) + "px");
+
+	scheduleSectionW = timeDisW + openCloseTimeW + chevronW + 15 + 15 + 5 + 5;
+
+	$(scheduleSection).css("width", scheduleSectionW + "px");
+
+	linksAreaW += scheduleSectionW;
+
 	//This will set the position styles for the search section
 	$(searchSection).css("height", menuAreaH + "px");
 	$(searchSection).css("width", "calc(15em + 1.45em + 10px + 60px)");
 	$(searchSection).css("top",  "0px");
+	$(searchSection).css("left", scheduleSectionW + "px");
 
 	//This will set the position styles for the search bar
 	$(menuSearch).css("top", ((menuAreaH / 2) - (menuSearchH / 2)) + "px");
@@ -138,6 +171,8 @@ function smallMenu()
 {
 	//Do this so that so the toggle is present
 	$(menuOpenClose).css("display", "block");
+	var menuOpenCloseH = parseInt($(menuOpenClose).css("height"));
+	$(menuOpenClose).css("top", ((menuAreaH / 2) - (menuOpenCloseH / 2)) + "px");
 	
 	//Set the static width and height for the links area, which will we a set width of 20em
 	//and the full height of the screen
