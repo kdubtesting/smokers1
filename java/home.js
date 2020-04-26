@@ -23,6 +23,9 @@ var quickStoreDesc = document.getElementById("quick-store-description");
 //This will be for the SLIDER AREA
 var sliderArea = document.getElementById("slider-area");
 var inSlider = null;
+var clickCount = 0;
+var slideL = 0;
+var movedToEnd = false;
 
 //This will be for the OPTIONS AREA
 var optionsArea = document.getElementById("options-section");
@@ -202,109 +205,6 @@ function createProductCard(inSlider, item)
 	$(productCard).css("height", (productImageW + 48 + productDescH) + "px");
 
 	window.productMaxW = productImageW;
-}
-
-function clickButtons(inSlider, inSliderW, quickStoreW, leftButton, rightButton, productCardW)
-{
-	var differenceInClick = inSliderW - quickStoreW;
-	var moveLeftRight = 13 + productCardW;
-	var howManyClicks = Math.floor(differenceInClick / moveLeftRight)
-	var remainder = differenceInClick % moveLeftRight;
-	if(remainder != 0)
-	{
-		howManyClicks += 1;
-	}
-
-	//These will be some variables to start moving the inslider area
-	var inSliderL = parseInt($(inSlider).css("left"));
-
-	if(inSliderL == 0)
-	{
-		$(leftButton).css("border", "2px solid #E9E9E9");
-		$(leftButton.childNodes[1]).css("color", "#E9E9E9");
-	}
-
-	var clickCount = 0;
-	var slideL = 0;
-	var movedToEnd = false;
-
-	$(leftButton).click(function(e)
-	{
-		e.preventDefault();
-		if(clickCount > 0)
-		{
-			console.log(movedToEnd);
-			if(clickCount == 1 && movedToEnd == true)
-			{
-				console.log("This ran");
-				slideL = 0;
-				movedToEnd = false;
-			}
-			else
-			{
-				console.log("this ran too");
-				slideL += moveLeftRight;
-			}
-			$(inSlider).css("left", slideL + "px");
-			clickCount--;
-			$(inSlider.childNodes[clickCount]).css("box-shadow", "0 0 3px rgba(0,0,0,0.2)");
-			if(movedToEnd == true)
-			{
-				$(inSlider.childNodes[clickCount - 1]).css("box-shadow", "0 0 3px rgba(0,0,0,0.2)");
-			}
-			if(slideL < 0)
-			{
-				$(rightButton).css("border", "2px solid #000000");
-				$(rightButton.childNodes[1]).css("color", "#000000");
-			}
-			if(clickCount == 0)
-			{
-				$(leftButton).css("border", "2px solid #E9E9E9");
-				$(leftButton.childNodes[1]).css("color", "#E9E9E9");
-			}
-			console.log(clickCount);
-		}
-	});
-
-	$(rightButton).click(function(e)
-	{
-		e.preventDefault();
-		if(clickCount < howManyClicks)
-		{
-			if((howManyClicks - clickCount) == 1 && movedToEnd == false)
-			{
-				slideL -= remainder;
-			}
-			else
-			{
-				slideL -= moveLeftRight;
-			}
-
-			$(inSlider).css("left", slideL + "px");
-			
-			if((-1 * slideL) > 0)
-			{
-				$(leftButton).css("border", "2px solid #000000");
-				$(leftButton.childNodes[1]).css("color", "#000000");
-			}
-
-			clickCount++;
-			if(clickCount == howManyClicks)
-			{
-				$(rightButton).css("border", "2px solid #E9E9E9");
-				$(rightButton.childNodes[1]).css("color", "#E9E9E9");
-				movedToEnd = true;
-				console.log(movedToEnd)
-			}
-			else
-			{
-				$(inSlider.childNodes[clickCount-1]).css("box-shadow", "none");
-			}
-			console.log(clickCount);
-		}
-	});
-
-
 }
 
 //This will load the document
@@ -501,12 +401,12 @@ $(window).on("load", function(){
 	$(optionsButton).css("top", "10px");
 	$(optionsButton).css("right", "13px");
 
-	inSliderW = parseInt($(inSlider).css("width"));
+	/*inSliderW = parseInt($(inSlider).css("width"));
 	var quickStoreW = parseInt($(quickStoreSection).css("width"));
 	var productCardW = parseInt($(inSlider.childNodes[0]).css("width"));
 
 	clickButtons(inSlider, inSliderW, quickStoreW, leftButton, rightButton, productCardW);
-
+	*/
 });
 
 
@@ -556,6 +456,11 @@ $(window).on("resize", function(){
 			{
 				var productImgW = parseInt($(inSlider.childNodes[0].childNodes[0]).css("width")) + 48;
 
+				//This will be used to se the inSlider after it has been resized
+				var inSliderL = (-1) * parseInt($(inSlider).css("left"));
+				var previousProductW = parseInt($(inSlider.childNodes[0]).css("width")) + 13;
+				var multiple = inSliderL / previousProductW;
+
 				if(newSliderH > (checkProductH + 48))
 				{
 					var inSliderW = 13;
@@ -580,6 +485,9 @@ $(window).on("resize", function(){
 						}
 
 						$(inSlider).css("width", inSliderW + "px");
+						slideL = clickCount * (parseInt($(inSlider.childNodes[0]).css("width")) + 13);
+						slideL = (clickCount != 0) ? slideL * (-1) : slideL; 
+						$(inSlider).css("left", slideL + "px");
 						growingScreenV = false;
 					}
 					else
@@ -602,9 +510,13 @@ $(window).on("resize", function(){
 							inSliderW += (newProductW + 13);
 						}
 						$(inSlider).css("width", inSliderW + "px");
+						slideL = clickCount * (parseInt($(inSlider.childNodes[0]).css("width")) + 13);
+						slideL = (clickCount != 0) ? slideL * (-1) : slideL; 
+						$(inSlider).css("left", slideL + "px");
 					}
 				}			
 			}
+
 		}
 		
 	}
@@ -636,6 +548,8 @@ $(window).on("resize", function(){
 				var inSliderW = 13;
 				var productImgW = parseInt($(inSlider.childNodes[0].childNodes[0]).css("width")) - 48;
 
+				
+
 				if(productImgW <= productMinW)
 				{
 					for(var i = 0; i < inSlider.childNodes.length; i++)
@@ -657,6 +571,9 @@ $(window).on("resize", function(){
 					}
 
 					$(inSlider).css("width", inSliderW + "px");
+					slideL = clickCount * (parseInt($(inSlider.childNodes[0]).css("width")) + 13);
+					slideL = (clickCount != 0) ? slideL * (-1) : slideL; 
+					$(inSlider).css("left", slideL + "px");
 
 					//This will begin to set the rest of the area to the correct size
 					newSliderH = checkProductH + 13;
@@ -691,7 +608,11 @@ $(window).on("resize", function(){
 						$(inSlider.childNodes[i]).css("left", inSliderW + "px");
 						inSliderW += (newProductW + 13);
 					}
+
 					$(inSlider).css("width", inSliderW + "px");
+					slideL = clickCount * (parseInt($(inSlider.childNodes[0]).css("width")) + 13);
+					slideL = (clickCount != 0) ? slideL * (-1) : slideL; 
+					$(inSlider).css("left", slideL + "px");
 				}
 
 			}
@@ -704,6 +625,82 @@ $(window).on("resize", function(){
 
 	}
 	window.previousSize = window.innerHeight;
+
+
+	//This is for the sliding advertisement, it will change both horizontally and vertically
+	var inSliderW = parseInt($(inSlider).css("width"));
+	var quickStoreW = parseInt($(quickStoreSection).css("width"));
+
+	if(inSliderW <= quickStoreW)
+	{
+		slideL = 0;
+		clickCount = 0;
+		$(inSlider).css("left", ((quickStoreW / 2) - (inSliderW / 2)) + "px");
+	}
+});
+
+//This will be the click options to move the slider
+$(leftButton).click(function(e){
+	e.preventDefault();
+
+	//Declare some global variables for the movement
+	var inSliderW = parseInt($(inSlider).css("width"));
+	var quickStoreW = parseInt($(quickStoreSection).css("width"));
+	var productCardW = parseInt($(inSlider.childNodes[0]).css("width"));
+
+	var differenceRem = inSliderW - quickStoreW;
+
+	if(differenceRem > 0)
+	{
+
+		//These are some of the local variables
+		var leftRightDist = productCardW + 13;
+		var totalClicks = Math.floor(differenceRem / leftRightDist);
+		if((differenceRem % leftRightDist) != 0)
+		{
+			totalClicks += 1;
+		}
+
+		//This will begin the slide effect
+		if(clickCount > 0)
+		{
+			slideL += leftRightDist;
+			clickCount--;
+			$(inSlider).css("left", slideL + "px");
+		}
+	}
+});
+
+$(rightButton).click(function(e)
+{
+	e.preventDefault();
+	console.log("clicked");
+	//Declare some global variables for the movement
+	var inSliderW = parseInt($(inSlider).css("width"));
+	var quickStoreW = parseInt($(quickStoreSection).css("width"));
+	var productCardW = parseInt($(inSlider.childNodes[0]).css("width"));
+
+	var differenceRem = inSliderW - quickStoreW;
+
+	if(differenceRem > 0)
+	{
+
+		//These are some of the local variables
+		var leftRightDist = productCardW + 13;
+		var totalClicks = Math.floor(differenceRem / leftRightDist);
+		if((differenceRem % leftRightDist) != 0)
+		{
+			totalClicks += 1;
+		}
+
+		//This will begin the slide effect
+		if(clickCount < totalClicks)
+		{
+			slideL -= leftRightDist;
+			clickCount++;
+			$(inSlider).css("left", slideL + "px");
+		}
+	}	
 });
 
 
